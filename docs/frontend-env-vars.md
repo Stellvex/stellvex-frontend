@@ -31,15 +31,19 @@ in a `NEXT_PUBLIC_*` variable.
   all other API calls (e.g. `useWallets`, `GET /api/requests/today`, and
   `POST /api/transactions` for the wallet "Send" flow). **Set this in new
   deploys.**
-- **`NEXT_PUBLIC_MUX_API_URL`** — **legacy alias**, checked second in the
+- **`NEXT_PUBLIC_STELLVEX_API_URL`** — **newer alias**, checked second in the
   `getApiBaseUrl()` fallback chain (see below). Defaults to
-  `https://api.muxprotocol.com` in production when all three aliases are
-  unset. Predates `NEXT_PUBLIC_API_URL`; kept for older deploy configs.
-- **`NEXT_PUBLIC_API_BASE`** — **legacy alias**, third and final candidate
+  `https://api.stellvexprotocol.com` in production when the primary var and
+  this one are both unset.
+- **`NEXT_PUBLIC_MUX_API_URL`** — **deprecated legacy alias** (pre-rebrand
+  name), checked third in the fallback chain. Predates the Stellvex rebrand;
+  kept for older deploy configs. No default — use
+  `NEXT_PUBLIC_STELLVEX_API_URL` or `NEXT_PUBLIC_API_URL` instead.
+- **`NEXT_PUBLIC_API_BASE`** — **legacy alias**, fourth and final candidate
   in the fallback chain, for deploys that used this older name.
 
   **API URL resolution chain (#693):** `getApiBaseUrl()` in
-  `src/lib/api/config.ts` walks the three aliases above in priority order
+  `src/lib/api/config.ts` walks the four aliases above in priority order
   and returns the first *non-empty* value. An alias set to an empty string
   (e.g. `NEXT_PUBLIC_API_URL=`) is treated as unset and the chain
   continues to the next alias. This means a mis-set deploy that blanks the
@@ -53,10 +57,11 @@ in a `NEXT_PUBLIC_*` variable.
 - **`NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID`** — only relevant if
   WalletConnect-based wallet flows are enabled.
 
-There is intentionally no client-visible Mux API key. A project API key
+There is intentionally no client-visible Stellvex API key. A project API key
 is a real credential, and anything under `NEXT_PUBLIC_*` is inlined into
 the browser bundle for every visitor to read — see #636. `ApiContext.tsx`
-(a client component) never reads `MUX_API_KEY`/`MUX_API_SECRET`; it only
+(a client component) never reads `STELLVEX_API_KEY`/`STELLVEX_API_SECRET`
+(or their deprecated `MUX_API_KEY`/`MUX_API_SECRET` aliases); it only
 constructs an unauthenticated client that talks to this app's own
 same-origin `/api/*` routes.
 
@@ -64,30 +69,35 @@ same-origin `/api/*` routes.
 
 These never reach the browser and are safe for secrets.
 
-- **`MUX_API_KEY`** / **`MUX_API_SECRET`** — read by
+- **`STELLVEX_API_KEY`** / **`STELLVEX_API_SECRET`** — read by
   `getUpstreamAuthHeaders()` in `src/lib/api/config.ts` and attached
   (`x-api-key` / `x-api-secret`) to every upstream request a Next.js API
-  route makes to the Mux backend. Only ever read inside `src/app/api/**`
+  route makes to the Stellvex backend. Only ever read inside `src/app/api/**`
   route handlers or other server-only modules — **never import
   `getApiKey()`/`getApiSecret()` from a client component** (#694).
+  `MUX_API_KEY` / `MUX_API_SECRET` are **deprecated legacy aliases**, read as
+  a fallback whenever the `STELLVEX_*` name is unset.
 
   As an extra defence-in-depth measure, `assertServerSide()` and
   `getServerOnlyEnv()` in `src/lib/env.ts` throw at runtime whenever they
   are called from a browser context (`window` is defined), so accidentally
   importing these helpers in a `"use client"` file causes an immediate,
   visible error in development rather than silently returning `undefined`.
-  Use `getServerOnlyEnv("MUX_API_SECRET")` in server-only code instead of
-  reading `process.env.MUX_API_SECRET` directly.
-- **`MUX_BACKEND_URL`** — server-only base URL of `mux-backend`, read by
-  `getBackendApiBaseUrl()` in `src/lib/api/config.ts`. `/api/spending-limits`
-  proxies `GET`/`PUT` here (forwarding the server API key and any caller
-  `Authorization` header) so spending limits and the real `todayUsage`
-  counter live in the backend, not the frontend process. No default: when
-  unset the route responds `503 { error: "Spending limits backend is not
+  Use `getServerOnlyEnv("STELLVEX_API_SECRET")` in server-only code instead
+  of reading `process.env.STELLVEX_API_SECRET` directly.
+- **`STELLVEX_BACKEND_URL`** — server-only base URL of `stellvex-backend`,
+  read by `getBackendApiBaseUrl()` in `src/lib/api/config.ts`.
+  `/api/spending-limits` proxies `GET`/`PUT` here (forwarding the server API
+  key and any caller `Authorization` header) so spending limits and the real
+  `todayUsage` counter live in the backend, not the frontend process. No
+  default: when unset (and the deprecated `MUX_BACKEND_URL` alias is also
+  unset) the route responds `503 { error: "Spending limits backend is not
   configured" }` instead of returning a fabricated figure. The
   `/api/demo/spending-limits` route needs no backend — it derives its
   `todayUsage` from the mock transaction store
   (`computeTodayUsage()` in `src/lib/spending-limits/todayUsage.ts`).
+  `MUX_BACKEND_URL` is a **deprecated legacy alias**, read as a fallback
+  whenever `STELLVEX_BACKEND_URL` is unset.
 
 ### Implicit
 
@@ -105,8 +115,8 @@ These never reach the browser and are safe for secrets.
 `getEnv()` merges each var's documented `defaultValue` (from the schema
 in `src/lib/env.ts`) into whatever is set, but only when
 `NODE_ENV=production`. Concretely: if a production deploy forgets to set
-`NEXT_PUBLIC_API_URL`/`NEXT_PUBLIC_MUX_API_URL`, it now resolves to the
-documented default `https://api.muxprotocol.com` instead of silently
+`NEXT_PUBLIC_API_URL`/`NEXT_PUBLIC_STELLVEX_API_URL`, it now resolves to the
+documented default `https://api.stellvexprotocol.com` instead of silently
 falling through every API route's mock branch (#637). Local dev and test
 runs are untouched — `NODE_ENV` isn't `production`, so leaving vars unset
 still exercises the in-repo mocks described throughout this doc.
@@ -116,17 +126,17 @@ still exercises the in-repo mocks described throughout this doc.
 Two independent things decide "which network" a request is scoped to:
 
 1. **Which backend** — `NEXT_PUBLIC_API_URL` (or its aliases) points this
-   app at a specific Mux backend:
+   app at a specific Stellvex backend:
 
    | Environment | `NEXT_PUBLIC_API_URL` example |
    | --- | --- |
    | Local dev (mocked) | _(unset)_ |
-   | Testnet / staging | `https://testnet-api.muxprotocol.com` |
-   | Mainnet / production | `https://api.muxprotocol.com` |
+   | Testnet / staging | `https://testnet-api.stellvexprotocol.com` |
+   | Mainnet / production | `https://api.stellvexprotocol.com` |
 
 2. **Which network within that backend** — the in-app Testnet/Mainnet
    switcher in the top nav (`NetworkContext`, `src/context/NetworkContext.tsx`,
-   persisted to `localStorage` under `mux_network`). `useWallets({ network })`
+   persisted to `localStorage` under `stellvex_network`). `useWallets({ network })`
    sends this as a `?network=` query param on `/api/wallets`, so the backend
    itself scopes the response to one network — wallets are not additionally
    re-filtered client-side. (An earlier version of the wallets page *did*
@@ -179,7 +189,7 @@ as evidence of a live mainnet or testnet target.
 
 The `e2e-tests` job (Playwright) instead sets `NEXT_PUBLIC_API_URL=""` so
 the specs exercise the in-repo mock `/api/*` routes with no backend. No
-job sets `MUX_BACKEND_URL`, so `/api/spending-limits` returns `503` in CI
+job sets `STELLVEX_BACKEND_URL` (or the deprecated `MUX_BACKEND_URL` alias), so `/api/spending-limits` returns `503` in CI
 — the e2e specs cover login and wallet flows, not spending limits.
 
 ## Manual verification checklist

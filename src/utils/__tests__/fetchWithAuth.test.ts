@@ -21,15 +21,15 @@ describe("fetchWithAuth", () => {
 		Object.defineProperty(window, "location", {
 			configurable: true,
 			value: {
-				origin: "https://console.mux.test",
+				origin: "https://console.stellvex.test",
 				pathname: "/demo/dashboard/wallets",
 				search: "?network=testnet",
 				hash: "#active",
 				replace,
 			},
 		});
-		sessionStorage.setItem("mux_auth_user", JSON.stringify({ user: {} }));
-		document.cookie = "mux_auth_session=1; path=/";
+		sessionStorage.setItem("stellvex_auth_user", JSON.stringify({ user: {} }));
+		document.cookie = "stellvex_auth_session=1; path=/";
 	});
 
 	afterEach(() => {
@@ -92,7 +92,7 @@ describe("fetchWithAuth", () => {
 
 		// Rotated token was persisted; session was NOT torn down.
 		expect(loadSession()).toMatchObject({ accessToken: "fresh-token" });
-		expect(sessionStorage.getItem("mux_auth_user")).not.toBeNull();
+		expect(sessionStorage.getItem("stellvex_auth_user")).not.toBeNull();
 		expect(replace).not.toHaveBeenCalled();
 	});
 
@@ -117,9 +117,9 @@ describe("fetchWithAuth", () => {
 			UnauthorizedError,
 		);
 
-		expect(sessionStorage.getItem("mux_auth_user")).toBeNull();
+		expect(sessionStorage.getItem("stellvex_auth_user")).toBeNull();
 		expect(replace).toHaveBeenCalledWith(
-			"https://console.mux.test/login?callbackUrl=%2Fdemo%2Fdashboard%2Fwallets%3Fnetwork%3Dtestnet%23active",
+			"https://console.stellvex.test/login?callbackUrl=%2Fdemo%2Fdashboard%2Fwallets%3Fnetwork%3Dtestnet%23active",
 		);
 	});
 
@@ -134,6 +134,6 @@ describe("fetchWithAuth", () => {
 		);
 
 		expect(replace).toHaveBeenCalledTimes(1);
-		expect(sessionStorage.getItem("mux_auth_user")).toBeNull();
+		expect(sessionStorage.getItem("stellvex_auth_user")).toBeNull();
 	});
 });

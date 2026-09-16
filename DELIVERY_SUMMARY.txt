@@ -2,7 +2,7 @@
   NETWORK BADGE COMPONENT TESTS - DELIVERY SUMMARY
 ================================================================================
 
-PROJECT: Mux Protocol Frontend - Network Badge Component Tests
+PROJECT: Stellvex Protocol Frontend - Network Badge Component Tests
 DATE: May 2026
 STATUS: ✅ COMPLETE AND PRODUCTION READY
 
@@ -125,7 +125,7 @@ STATUS: ✅ COMPLETE AND PRODUCTION READY
   FILE STRUCTURE
 ================================================================================
 
-mux-frontend/
+stellvex-frontend/
 ├── jest.config.ts                          # Jest configuration
 ├── jest.setup.ts                           # Jest setup
 ├── package.json                            # Updated with test deps
@@ -151,7 +151,7 @@ mux-frontend/
 ================================================================================
 
 1. Install Dependencies
-   $ cd mux-frontend
+   $ cd stellvex-frontend
    $ pnpm install
 
 2. Run Tests

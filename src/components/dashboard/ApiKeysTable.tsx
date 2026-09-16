@@ -59,7 +59,7 @@ export function ApiKeysTable({ initialKeys }: ApiKeysTableProps) {
 
 	const handleCreateKey = async (name: string) => {
 		if (!usesFetchedData) {
-			const secret = `mux_sk_${Date.now()}`;
+			const secret = `stellvex_sk_${Date.now()}`;
 			const newKey: CreatedApiKey = {
 				id: `key-${Date.now()}`,
 				name,
@@ -173,7 +173,9 @@ export function ApiKeysTable({ initialKeys }: ApiKeysTableProps) {
 									className="h-8 rounded-lg px-3 text-zinc-500 hover:text-red-600 dark:hover:text-red-400"
 									onClick={() => setPendingRevokeId(apiKey.id)}
 									disabled={isOffline}
-									title={isOffline ? "Revoking is paused while offline" : undefined}
+									title={
+										isOffline ? "Revoking is paused while offline" : undefined
+									}
 									data-testid={`revoke-btn-${apiKey.id}`}
 								>
 									Revoke
@@ -306,7 +308,7 @@ export function ApiKeysTable({ initialKeys }: ApiKeysTableProps) {
 								<Key className="h-10 w-10 text-zinc-400 dark:text-zinc-500" />
 							}
 							title="No API keys yet"
-							description="Create your first API key to start integrating with the Mux Protocol."
+							description="Create your first API key to start integrating with the Stellvex Protocol."
 							action={{
 								label: "Create new key",
 								onClick: () => setIsModalOpen(true),

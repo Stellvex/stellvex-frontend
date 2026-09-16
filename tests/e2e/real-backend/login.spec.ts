@@ -1,11 +1,11 @@
 import { expect, test } from "@playwright/test";
-import { readRealBackendEnv, REAL_BACKEND_SKIP_REASON } from "./helpers";
+import { REAL_BACKEND_SKIP_REASON, readRealBackendEnv } from "./helpers";
 
 /**
- * Contract coverage for POST /api/auth/login against a REAL mux-backend.
+ * Contract coverage for POST /api/auth/login against a REAL stellvex-backend.
  *
  * tests/e2e/login.spec.ts's "signs in successfully" case fills in
- * "dev@muxprotocol.com" / "password123" and asserts a redirect — that only
+ * "dev@stellvexprotocol.com" / "password123" and asserts a redirect — that only
  * works because the mock `/api/auth/login` route accepts *any*
  * well-formed credentials when NEXT_PUBLIC_API_URL is unset (see that
  * route's mock-fallback branch). Pointed at a real backend, those same
@@ -18,7 +18,7 @@ import { readRealBackendEnv, REAL_BACKEND_SKIP_REASON } from "./helpers";
  */
 const realBackend = readRealBackendEnv();
 
-test.describe("Login against a real mux-backend", () => {
+test.describe("Login against a real stellvex-backend", () => {
 	test.skip(!realBackend, REAL_BACKEND_SKIP_REASON);
 
 	test.beforeEach(async ({ page }) => {

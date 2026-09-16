@@ -43,7 +43,7 @@ export function AnalyticsHelpPanel() {
 							About these analytics
 						</h2>
 						<p className="mt-1 text-sm text-blue-800 dark:text-blue-300">
-							All metrics are sourced from the Mux backend API and reflect
+							All metrics are sourced from the Stellvex backend API and reflect
 							activity for the currently selected network (Testnet / Mainnet).
 							When no live API URL is configured the dashboard falls back to
 							deterministic mock data so it remains functional in development

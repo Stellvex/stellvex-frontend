@@ -9,7 +9,7 @@ import { defineConfig, devices } from "@playwright/test";
  * suite always exercises the in-repo mock, deterministically, in every
  * environment. This config does the opposite on purpose: it does NOT set
  * NEXT_PUBLIC_API_URL, so `next dev` inherits whatever the invoking shell
- * has, and /api/auth/login + /api/wallets proxy to a real mux-backend
+ * has, and /api/auth/login + /api/wallets proxy to a real stellvex-backend
  * instead of falling back to mock responses (see
  * src/lib/api/config.ts::getApiBaseUrl / isMockFallbackAllowed).
  *
@@ -19,12 +19,12 @@ import { defineConfig, devices } from "@playwright/test";
  * configured is a no-op rather than a false pass against the mock.
  *
  * Run with:
- *   NEXT_PUBLIC_API_URL=https://staging-api.muxprotocol.com \
+ *   NEXT_PUBLIC_API_URL=https://staging-api.stellvexprotocol.com \
  *   E2E_TEST_EMAIL=... E2E_TEST_PASSWORD=... \
  *   pnpm exec playwright test --config=playwright.real-backend.config.ts
  *
  * Or against an already-running preview/staging frontend:
- *   PLAYWRIGHT_BASE_URL=https://staging.muxprotocol.com \
+ *   PLAYWRIGHT_BASE_URL=https://staging.stellvexprotocol.com \
  *   NEXT_PUBLIC_API_URL=... E2E_TEST_EMAIL=... E2E_TEST_PASSWORD=... \
  *   pnpm exec playwright test --config=playwright.real-backend.config.ts
  */

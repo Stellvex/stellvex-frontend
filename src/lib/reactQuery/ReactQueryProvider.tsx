@@ -9,7 +9,7 @@ import React from "react";
 
 /**
  * Creates a QueryClient with defaults tuned for a dashboard that proxies
- * every request through the Next.js API routes to `mux-backend`:
+ * every request through the Next.js API routes to `stellvex-backend`:
  *
  * - `staleTime` of 30s keeps the UI from hammering the backend on every
  *   remount / tab focus while still feeling live.

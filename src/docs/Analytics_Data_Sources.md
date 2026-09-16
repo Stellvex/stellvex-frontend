@@ -1,6 +1,6 @@
 # Analytics Data Sources
 
-This document describes every data source consumed by the Mux Protocol analytics
+This document describes every data source consumed by the Stellvex Protocol analytics
 dashboard, how each source is structured, where it lives in the codebase, and
 how to swap mock data for a real backend when one becomes available.
 
@@ -37,7 +37,7 @@ how to swap mock data for a real backend when one becomes available.
 ## Overview
 
 The analytics dashboard fetch metrics, chart data, and the top-assets table from
-the Mux backend when an API base URL is configured (`NEXT_PUBLIC_API_URL` / its
+the Stellvex backend when an API base URL is configured (`NEXT_PUBLIC_API_URL` / its
 aliases) and falls back to deterministic **local mock data** otherwise, so the
 UI stays functional in development, CI, and demo environments without a live
 backend. The **CSV / JSON export** is backed by real, date-scoped transaction
@@ -119,8 +119,8 @@ Used by: `AnalyticsChart` (both volume and transactions charts)
 // src/mock-data/analytics.ts
 interface AssetData {
   rank: number;        // 1-based ranking position
-  name: string;        // Full asset name, e.g. "Mux Protocol"
-  symbol: string;      // Ticker symbol, e.g. "MUX"
+  name: string;        // Full asset name, e.g. "Stellvex Protocol"
+  symbol: string;      // Ticker symbol, e.g. "SVX"
   volume: string;      // Pre-formatted volume string, e.g. "$4,234,567"
   volumeChange: number; // Percentage change (negative = down)
   tvl: string;         // Pre-formatted TVL string, e.g. "$18.2M"
@@ -178,7 +178,7 @@ child components:
 | `metrics` | `Metric[]` | Four KPI cards: Total Volume, Total Transactions, Active Wallets, Success Rate |
 | `volumeData` | `ChartDataPoint[]` | Seven daily volume data points (Mon–Sun), values in USD |
 | `transactionsData` | `ChartDataPoint[]` | Seven daily transaction count data points (Mon–Sun) |
-| `topAssets` | `AssetData[]` | Five assets ranked by volume: MUX, XLM, USDC, ETH, BTC |
+| `topAssets` | `AssetData[]` | Five assets ranked by volume: SVX, XLM, USDC, ETH, BTC |
 | `exportTransactions` | `Transaction[]` | Five export-shaped transaction rows consumed by the CSV / JSON downloads (via `useAnalyticsTransactions`). Used only as the non-production mock fallback. |
 
 All metrics/chart values are static and representative of a typical week of
@@ -333,10 +333,13 @@ idle ──► exporting ──► success ──► idle (auto-reset after succ
 
 | Variable | Required | Default | Description |
 |----------|----------|---------|-------------|
-| `NEXT_PUBLIC_MUX_API_URL` | No | `https://api.muxprotocol.com` | Base URL for the Mux Protocol API. When empty, the analytics page falls back to mock data. |
+| `NEXT_PUBLIC_STELLVEX_API_URL` | No | `https://api.stellvexprotocol.com` | Base URL for the Stellvex Protocol API. When empty, the analytics page falls back to mock data. |
+| `NEXT_PUBLIC_MUX_API_URL` | No | _(none)_ | Deprecated legacy alias — use `NEXT_PUBLIC_STELLVEX_API_URL` instead. |
 | `NEXT_PUBLIC_APP_URL` | No | `http://localhost:3000` | Public-facing URL of the application |
-| `MUX_API_KEY` | No | — | Server-side API key for authenticated requests |
-| `MUX_API_SECRET` | No | — | Server-side API secret |
+| `STELLVEX_API_KEY` | No | — | Server-side API key for authenticated requests |
+| `MUX_API_KEY` | No | — | Deprecated legacy alias — use `STELLVEX_API_KEY` instead. |
+| `STELLVEX_API_SECRET` | No | — | Server-side API secret |
+| `MUX_API_SECRET` | No | — | Deprecated legacy alias — use `STELLVEX_API_SECRET` instead. |
 
 All variables are validated at startup by `src/lib/env.ts`. Missing optional
 variables produce console warnings; missing required variables throw in
@@ -352,7 +355,7 @@ The analytics page currently imports mock data directly. To wire in a real API:
 
 ```bash
 # .env.local
-NEXT_PUBLIC_MUX_API_URL=https://api.muxprotocol.com
+NEXT_PUBLIC_STELLVEX_API_URL=https://api.stellvexprotocol.com
 ```
 
 ### 2. Expected API response shapes
@@ -392,8 +395,8 @@ The backend must return JSON matching these shapes:
   "assets": [
     {
       "rank": 1,
-      "name": "Mux Protocol",
-      "symbol": "MUX",
+      "name": "Stellvex Protocol",
+      "symbol": "SVX",
       "volume": "$4,234,567",
       "volumeChange": 15.2,
       "tvl": "$18.2M",

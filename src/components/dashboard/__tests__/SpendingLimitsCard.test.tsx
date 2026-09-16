@@ -103,8 +103,11 @@ describe("SpendingLimitsCard", () => {
 	it("passes an Authorization header when a session token is stored (#710)", async () => {
 		// Seed a session token in the mock storage that SpendingLimitsCard reads.
 		window.sessionStorage.setItem(
-			"mux-auth-session",
-			JSON.stringify({ accessToken: "test-bearer-token", expiresAt: Date.now() + 30000 }),
+			"stellvex-auth-session",
+			JSON.stringify({
+				accessToken: "test-bearer-token",
+				expiresAt: Date.now() + 30000,
+			}),
 		);
 		const fetchMock = mockFetch();
 		render(<SpendingLimitsCard />);
@@ -120,7 +123,7 @@ describe("SpendingLimitsCard", () => {
 			);
 		});
 
-		window.sessionStorage.removeItem("mux-auth-session");
+		window.sessionStorage.removeItem("stellvex-auth-session");
 	});
 
 	it("renders the current limits and usage from the API", async () => {
@@ -196,14 +199,19 @@ describe("SpendingLimitsCard", () => {
 		await user.click(screen.getByRole("button", { name: /save settings/i }));
 
 		await waitFor(() => {
-			expect(fetchMock).toHaveBeenCalledWith("/api/spending-limits", expect.objectContaining({
-				method: "PUT",
-				headers: expect.objectContaining({ "Content-Type": "application/json" }),
-				body: JSON.stringify({
-					dailyLimit: 8000,
-					transactionLimit: 2000,
+			expect(fetchMock).toHaveBeenCalledWith(
+				"/api/spending-limits",
+				expect.objectContaining({
+					method: "PUT",
+					headers: expect.objectContaining({
+						"Content-Type": "application/json",
+					}),
+					body: JSON.stringify({
+						dailyLimit: 8000,
+						transactionLimit: 2000,
+					}),
 				}),
-			}));
+			);
 		});
 
 		expect(screen.getByText(/spending limits saved/i)).toBeInTheDocument();
@@ -427,14 +435,19 @@ describe("SpendingLimitsCard", () => {
 		await user.keyboard("{Enter}");
 
 		await waitFor(() => {
-			expect(fetchMock).toHaveBeenCalledWith("/api/spending-limits", expect.objectContaining({
-				method: "PUT",
-				headers: expect.objectContaining({ "Content-Type": "application/json" }),
-				body: JSON.stringify({
-					dailyLimit: 5000,
-					transactionLimit: 1000,
+			expect(fetchMock).toHaveBeenCalledWith(
+				"/api/spending-limits",
+				expect.objectContaining({
+					method: "PUT",
+					headers: expect.objectContaining({
+						"Content-Type": "application/json",
+					}),
+					body: JSON.stringify({
+						dailyLimit: 5000,
+						transactionLimit: 1000,
+					}),
 				}),
-			}));
+			);
 		});
 	});
 });

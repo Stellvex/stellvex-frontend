@@ -228,7 +228,7 @@ function LoginWelcomeHint() {
 			className="mb-4 rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-700 dark:border-blue-900/50 dark:bg-blue-950/30 dark:text-blue-300"
 			data-testid="login-empty-state"
 		>
-			<p className="font-medium">Welcome to Mux Protocol</p>
+			<p className="font-medium">Welcome to Stellvex Protocol</p>
 			<p className="mt-0.5 text-blue-600 dark:text-blue-400">
 				Enter your credentials to access your developer console.
 			</p>
@@ -391,7 +391,7 @@ function LoginPageContent() {
 						</svg>
 					</div>
 					<h1 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-						Mux Protocol
+						Stellvex Protocol
 					</h1>
 					<p className="mt-1 text-sm text-gray-500 dark:text-zinc-400">
 						Sign in to your developer console
@@ -603,7 +603,7 @@ function LoginPageContent() {
 
 				{/* Footer note */}
 				<p className="mt-6 text-center text-xs text-gray-400 dark:text-zinc-600">
-					Mux Protocol developer console — internal use only
+					Stellvex Protocol developer console — internal use only
 				</p>
 			</div>
 		</div>

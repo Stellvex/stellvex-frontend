@@ -1,14 +1,14 @@
-# Mux Dashboard
+# Stellvex Dashboard
 
-The developer console for **Mux Protocol** — manage API keys, track wallet creation, and monitor account activity on Stellar.
+The developer console for **Stellvex Protocol** — manage API keys, track wallet creation, and monitor account activity on Stellar.
 
-Mux Dashboard is the interface for developers building on Mux. It provides visibility into the **Invisible Wallet system** while abstracting away all blockchain complexity.
+Stellvex Dashboard is the interface for developers building on Stellvex. It provides visibility into the **Invisible Wallet system** while abstracting away all blockchain complexity.
 
 ---
 
 ## Overview
 
-Mux Dashboard allows developers to:
+Stellvex Dashboard allows developers to:
 
 * **Create and manage API keys** for SDK access
 * **Track Stellar account creation** on Testnet and Mainnet
@@ -16,7 +16,7 @@ Mux Dashboard allows developers to:
 * **View usage metrics** such as transaction counts and account status
 * **Configure basic project-level settings**
 
-End users do not interact with this dashboard — it is purely for developers integrating Mux into their applications.
+End users do not interact with this dashboard — it is purely for developers integrating Stellvex into their applications.
 
 ---
 
@@ -45,13 +45,13 @@ End users do not interact with this dashboard — it is purely for developers in
 ### Prerequisites
 
 * Node.js >= 18
-* Access to Mux Backend API
+* Access to Stellvex Backend API
 
 ### Installation
 
 ```bash
-git clone https://github.com/mux-labs/mux-frontend.git
-cd mux-frontend
+git clone https://github.com/Stellvex/stellvex-frontend.git
+cd stellvex-frontend
 pnpm install
 pnpm run dev
 ```
@@ -65,24 +65,29 @@ values for testnet/mainnet-connected work.
 
 | Variable | Required | Default | Description |
 | --- | --- | --- | --- |
-| `NEXT_PUBLIC_API_URL` | No | _(none)_ | Base URL for the Mux backend API used by client-side requests, e.g. `https://api.muxprotocol.com` for mainnet or a testnet-specific URL. When unset, API routes such as `/api/auth/login` and `/api/wallets` fall back to an in-repo mock so `pnpm run dev` and CI work without a live backend — but only when `NODE_ENV` is not `production` (see the production note below). **Set this in new deploys; use the aliases below only for backward compatibility.** An alias set to an empty string (e.g. `NEXT_PUBLIC_API_URL=`) is treated as unset and the next alias in the chain is tried (see `API_URL_CANDIDATES` in `src/lib/api/config.ts`). |
-| `NEXT_PUBLIC_MUX_API_URL` | No | `https://api.muxprotocol.com` | Legacy alias for the API base URL, checked after `NEXT_PUBLIC_API_URL` (see `src/lib/api/config.ts`). Kept for backward compatibility with older deploys. |
-| `NEXT_PUBLIC_API_BASE` | No | _(none)_ | Third fallback in the API base URL resolution chain, checked after the two vars above. |
+| `NEXT_PUBLIC_API_URL` | No | _(none)_ | Base URL for the Stellvex backend API used by client-side requests, e.g. `https://api.stellvexprotocol.com` for mainnet or a testnet-specific URL. When unset, API routes such as `/api/auth/login` and `/api/wallets` fall back to an in-repo mock so `pnpm run dev` and CI work without a live backend — but only when `NODE_ENV` is not `production` (see the production note below). **Set this in new deploys; use the aliases below only for backward compatibility.** An alias set to an empty string (e.g. `NEXT_PUBLIC_API_URL=`) is treated as unset and the next alias in the chain is tried (see `API_URL_CANDIDATES` in `src/lib/api/config.ts`). |
+| `NEXT_PUBLIC_STELLVEX_API_URL` | No | `https://api.stellvexprotocol.com` | Newer alias for the API base URL, checked after `NEXT_PUBLIC_API_URL` (see `src/lib/api/config.ts`). |
+| `NEXT_PUBLIC_MUX_API_URL` | No | _(none)_ | **Deprecated legacy alias** (pre-rebrand name) for the API base URL, checked after `NEXT_PUBLIC_STELLVEX_API_URL`. Kept for backward compatibility with older deploys — use `NEXT_PUBLIC_STELLVEX_API_URL` or `NEXT_PUBLIC_API_URL` instead. |
+| `NEXT_PUBLIC_API_BASE` | No | _(none)_ | Oldest fallback in the API base URL resolution chain, checked after the aliases above. |
 | `NEXT_PUBLIC_APP_URL` | No | `http://localhost:3000` | Public-facing URL of this application, used for building absolute links (e.g. callback URLs). |
 | `NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID` | No | _(none)_ | WalletConnect project ID, needed only if wallet-connect based flows are enabled. |
-| `MUX_API_KEY` | No | _(none)_ | Server-only Mux Protocol API key. Used exclusively by Next.js API routes (`src/app/api/**`) to authenticate upstream requests to the backend. Never exposed to the browser — do not prefix it with `NEXT_PUBLIC_`. |
-| `MUX_API_SECRET` | No | _(none)_ | Server-only Mux Protocol API secret, paired with `MUX_API_KEY` and sent alongside it on every upstream request. |
-| `MUX_BACKEND_URL` | No | _(none)_ | Server-only base URL of `mux-backend`. Used by `/api/spending-limits` to proxy `GET`/`PUT` (spending limits and the real `todayUsage`). When unset the route returns `503` rather than fabricating usage — the frontend never persists spending limits itself (see `getBackendApiBaseUrl()` in `src/lib/api/config.ts`). |
+| `STELLVEX_API_KEY` | No | _(none)_ | Server-only Stellvex Protocol API key. Used exclusively by Next.js API routes (`src/app/api/**`) to authenticate upstream requests to the backend. Never exposed to the browser — do not prefix it with `NEXT_PUBLIC_`. |
+| `MUX_API_KEY` | No | _(none)_ | **Deprecated legacy alias** — use `STELLVEX_API_KEY` instead. Still read as a fallback when `STELLVEX_API_KEY` is unset. |
+| `STELLVEX_API_SECRET` | No | _(none)_ | Server-only Stellvex Protocol API secret, paired with `STELLVEX_API_KEY` and sent alongside it on every upstream request. |
+| `MUX_API_SECRET` | No | _(none)_ | **Deprecated legacy alias** — use `STELLVEX_API_SECRET` instead. Still read as a fallback when `STELLVEX_API_SECRET` is unset. |
+| `STELLVEX_BACKEND_URL` | No | _(none)_ | Server-only base URL of `stellvex-backend`. Used by `/api/spending-limits` to proxy `GET`/`PUT` (spending limits and the real `todayUsage`). When unset the route returns `503` rather than fabricating usage — the frontend never persists spending limits itself (see `getBackendApiBaseUrl()` in `src/lib/api/config.ts`). |
+| `MUX_BACKEND_URL` | No | _(none)_ | **Deprecated legacy alias** — use `STELLVEX_BACKEND_URL` instead. Still read as a fallback when `STELLVEX_BACKEND_URL` is unset. |
 
-There is no client-visible Mux API key. Project credentials only ever
-live in `MUX_API_KEY`/`MUX_API_SECRET` and are attached server-side, in
+There is no client-visible Stellvex API key. Project credentials only ever
+live in `STELLVEX_API_KEY`/`STELLVEX_API_SECRET` (or their deprecated
+`MUX_API_KEY`/`MUX_API_SECRET` aliases) and are attached server-side, in
 Next.js API routes, to requests made to the backend — the browser talks
-only to this app's own same-origin `/api/*` routes and never holds a Mux
+only to this app's own same-origin `/api/*` routes and never holds a Stellvex
 credential.
 
 **Testnet vs. mainnet:** which *backend* this frontend talks to is driven
 entirely by `NEXT_PUBLIC_API_URL` (or its aliases above) — point it at a
-testnet-configured Mux backend for staging/testnet work, and at the
+testnet-configured Stellvex backend for staging/testnet work, and at the
 production backend for mainnet. Separately, the dashboard has an in-app
 Testnet/Mainnet switcher (`NetworkContext`, in the top nav) that scopes
 which network's wallets are fetched *within* that backend — `useWallets`
@@ -94,8 +99,8 @@ placeholder `NEXT_PUBLIC_API_URL` only so `next build` can run without
 secrets; it does not reflect a real environment.
 
 **Production defaults:** when `NODE_ENV=production`, unset vars with a
-documented default (e.g. `NEXT_PUBLIC_MUX_API_URL` →
-`https://api.muxprotocol.com`) are applied automatically by `getEnv()`,
+documented default (e.g. `NEXT_PUBLIC_STELLVEX_API_URL` →
+`https://api.stellvexprotocol.com`) are applied automatically by `getEnv()`,
 so a production deploy with a forgotten env var talks to the real
 backend instead of silently serving mock data. Local dev and tests are
 unaffected — leaving everything unset there still uses the in-repo
@@ -166,21 +171,21 @@ verification checklist.
 
 * `POST /api/auth/login` proxies to `{backend}/auth/login` and writes the
   backend-issued session token to an **HttpOnly, `SameSite=Lax`, `Secure`
-  (in production) `mux_auth_token` cookie** set from the route's `Set-Cookie`
+  (in production) `stellvex_auth_token` cookie** set from the route's `Set-Cookie`
   response — never `document.cookie` (#627).
 * `POST /api/auth/refresh` proxies to `{backend}/auth/refresh`, forwarding the
   caller's `Authorization` header / session cookie, and rotates the
-  `mux_auth_token` cookie from the response (#626). Without a backend it only
+  `stellvex_auth_token` cookie from the response (#626). Without a backend it only
   mints the mock token outside production.
 * The Next.js middleware verifies the token against `GET {backend}/auth/session`
-  on every `/dashboard` request — the client-set `mux_auth_session` marker
+  on every `/dashboard` request — the client-set `stellvex_auth_session` marker
   cookie is only trusted in mock mode (no backend), and now carries `; Secure`
   on HTTPS.
 * Any bearer-token block in the login response is persisted to
   `sessionStorage` (never `localStorage`) via `src/lib/session.js` so
   `src/lib/api.js` **and** `src/utils/fetchWithAuth.ts` can attach
   `Authorization` headers and refresh on `401` (#628, #630). Both read the
-  same `mux-auth-session` key, so `useWallets` sends the token `AuthContext`
+  same `stellvex-auth-session` key, so `useWallets` sends the token `AuthContext`
   actually stored (#629).
 * `signOut()` calls `POST /api/auth/logout` to clear the HttpOnly cookie and
   the stored bearer session.
@@ -230,7 +235,7 @@ stay easy to find and don't clutter the repo root as features evolve.
 
 * The dashboard is **developer-focused**, not end-user focused
 * **Backend handles wallets and transactions**; the dashboard is a monitoring and management tool
-* Makes it simple to **observe, control, and integrate** Mux-powered wallets
+* Makes it simple to **observe, control, and integrate** Stellvex-powered wallets
 
 ---
 

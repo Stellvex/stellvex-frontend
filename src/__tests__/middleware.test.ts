@@ -9,10 +9,10 @@
  *    `/login?callbackUrl=<original-path>` (both the `/dashboard` tree and the
  *    `/demo/dashboard` mirror).
  *  - Unprotected routes pass straight through.
- *  - Mock mode (no backend): the client-set `mux_auth_session` marker cookie
+ *  - Mock mode (no backend): the client-set `stellvex_auth_session` marker cookie
  *    is accepted so `pnpm dev` / CI work without a live auth server.
  *  - Backend mode (`NEXT_PUBLIC_API_URL` set): the marker cookie alone is
- *    NOT trusted — a real `mux_auth_token` cookie is required and is verified
+ *    NOT trusted — a real `stellvex_auth_token` cookie is required and is verified
  *    against `GET {backend}/auth/session`. A rejected token is cleared from
  *    the browser on the redirect.
  */
@@ -21,15 +21,15 @@ import { NextRequest } from "next/server";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { middleware } from "@/middleware";
 
-const MARKER_COOKIE = "mux_auth_session";
-const TOKEN_COOKIE = "mux_auth_token";
+const MARKER_COOKIE = "stellvex_auth_session";
+const TOKEN_COOKIE = "stellvex_auth_token";
 const BACKEND = "https://api.example.com";
 
 function request(
 	pathname: string,
 	cookies: Record<string, string> = {},
 ): NextRequest {
-	const req = new NextRequest(`https://console.mux.dev${pathname}`);
+	const req = new NextRequest(`https://console.stellvex.dev${pathname}`);
 	for (const [name, value] of Object.entries(cookies)) {
 		req.cookies.set(name, value);
 	}

@@ -7,7 +7,8 @@ import createApiClient from "./index";
 const ApiContext = createContext<ApiClient | null>(null);
 
 /**
- * Server-only Mux credentials (MUX_API_KEY / MUX_API_SECRET) must never be
+ * Server-only Stellvex credentials (STELLVEX_API_KEY / STELLVEX_API_SECRET,
+ * or their deprecated MUX_API_KEY / MUX_API_SECRET aliases) must never be
  * read here — this is a client component and anything it touches ships to
  * the browser. `apiKey` and `authToken` are only for a caller-supplied,
  * non-secret, per-session value; leave them unset to make unauthenticated

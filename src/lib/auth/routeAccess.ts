@@ -2,15 +2,15 @@
  * Server-side route-access evaluation (#621).
  *
  * The Next.js middleware used to trust the mere *presence* of the
- * `mux_auth_session` marker cookie — a value the browser sets itself, with no
- * server verification. That means anyone could hand-craft `mux_auth_session=1`
+ * `stellvex_auth_session` marker cookie — a value the browser sets itself, with no
+ * server verification. That means anyone could hand-craft `stellvex_auth_session=1`
  * and reach `/dashboard`.
  *
  * This module makes the check provider-agnostic and server-verified:
  *
  *  - When a backend is configured (`NEXT_PUBLIC_API_URL` / aliases), a
  *    protected route requires a real, opaque session token
- *    (`mux_auth_token`, HttpOnly, set by `/api/auth/login` from the backend
+ *    (`stellvex_auth_token`, HttpOnly, set by `/api/auth/login` from the backend
  *    response) that the backend confirms is still valid via
  *    `GET {backend}/auth/session`. The client-set marker cookie alone is
  *    never trusted in this mode.
@@ -26,10 +26,10 @@
 export const PROTECTED_PREFIXES = ["/dashboard", "/recovery"];
 
 /** HttpOnly cookie holding the backend-issued opaque session token. */
-export const SESSION_TOKEN_COOKIE = "mux_auth_token";
+export const SESSION_TOKEN_COOKIE = "stellvex_auth_token";
 
 /** Legacy client-set marker cookie (value "1"), used only in mock mode. */
-export const SESSION_MARKER_COOKIE = "mux_auth_session";
+export const SESSION_MARKER_COOKIE = "stellvex_auth_session";
 
 /** Where unauthenticated users are sent. */
 export const LOGIN_PATH = "/login";

@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-const STORAGE_KEY = "mux_balance_visibility";
+const STORAGE_KEY = "stellvex_balance_visibility";
 
 export function useBalanceVisibility(defaultVisibility = false) {
 	const [isVisible, setIsVisible] = useState(defaultVisibility);

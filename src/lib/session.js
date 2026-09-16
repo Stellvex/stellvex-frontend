@@ -10,7 +10,7 @@
  * @see https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html
  */
 
-const STORAGE_KEY = "mux-auth-session";
+const STORAGE_KEY = "stellvex-auth-session";
 
 /**
  * In-memory fallback store for SSR and Node.js test environments.

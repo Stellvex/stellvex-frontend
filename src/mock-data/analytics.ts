@@ -1,6 +1,6 @@
 /**
  * @file analytics.ts
- * @description Mock analytics data for the Mux Protocol dashboard.
+ * @description Mock analytics data for the Stellvex Protocol dashboard.
  *
  * All exports are static, deterministic, and representative of a typical week
  * of platform activity. They are consumed directly by the analytics page and
@@ -110,7 +110,7 @@ export const transactionsData: ChartDataPoint[] = [
 /**
  * Top five assets ranked by trading volume.
  *
- * Covers: MUX, XLM, USDC, ETH, BTC.
+ * Covers: SVX, XLM, USDC, ETH, BTC.
  *
  * @see TopAssetsTable — `src/components/analytics/TopAssetsTable.tsx`
  * @see Analytics_Data_Sources.md — `src/docs/Analytics_Data_Sources.md`
@@ -118,8 +118,8 @@ export const transactionsData: ChartDataPoint[] = [
 export const topAssets: AssetData[] = [
 	{
 		rank: 1,
-		name: "Mux Protocol",
-		symbol: "MUX",
+		name: "Stellvex Protocol",
+		symbol: "SVX",
 		volume: "$4,234,567",
 		volumeChange: 15.2,
 		tvl: "$18.2M",

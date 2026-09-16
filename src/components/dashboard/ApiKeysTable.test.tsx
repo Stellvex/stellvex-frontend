@@ -7,7 +7,7 @@ import { ApiKeysTable } from "./ApiKeysTable";
 const activeKey: ApiKey = {
 	id: "test-1",
 	name: "Default Key",
-	key: "mux_sk_a••••1234",
+	key: "stellvex_sk_a••••1234",
 	status: "Active",
 	createdAt: "2026-07-26T00:00:00.000Z",
 };
@@ -20,7 +20,7 @@ describe("ApiKeysTable", () => {
 			screen.getByRole("table", { name: /api keys/i }),
 		).toBeInTheDocument();
 		expect(screen.getByText("Default Key")).toBeInTheDocument();
-		expect(screen.getByText("mux_sk_a••••1234")).toBeInTheDocument();
+		expect(screen.getByText("stellvex_sk_a••••1234")).toBeInTheDocument();
 	});
 
 	it("opens the create modal and adds a new masked key", async () => {

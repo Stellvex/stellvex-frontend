@@ -41,7 +41,7 @@ describe("TopNav — network switcher", () => {
 	beforeEach(() => {
 		document.title = "";
 		// Ensure we start in a clean network state each test
-		localStorage.removeItem("mux_network");
+		localStorage.removeItem("stellvex_network");
 	});
 
 	it("renders Testnet and Mainnet switch buttons", () => {
@@ -96,13 +96,13 @@ describe("TopNav — network switcher", () => {
 	it("updates document.title to reflect active network", () => {
 		document.title = "";
 		renderTopNav();
-		expect(document.title).toBe("Wallets · Mainnet — Mux");
+		expect(document.title).toBe("Wallets · Mainnet — Stellvex");
 
 		fireEvent.click(screen.getByRole("button", { name: /switch to testnet/i }));
-		expect(document.title).toBe("Wallets · Testnet — Mux");
+		expect(document.title).toBe("Wallets · Testnet — Stellvex");
 
 		fireEvent.click(screen.getByRole("button", { name: /switch to mainnet/i }));
-		expect(document.title).toBe("Wallets · Mainnet — Mux");
+		expect(document.title).toBe("Wallets · Mainnet — Stellvex");
 	});
 
 	it("announces optimistic network switching immediately", () => {
@@ -123,7 +123,7 @@ describe("TopNav — dark mode toggle", () => {
 	beforeEach(() => {
 		// Start each test in light mode
 		document.documentElement.classList.remove("dark");
-		localStorage.removeItem("mux_dark_mode");
+		localStorage.removeItem("stellvex_dark_mode");
 	});
 
 	it("renders the dark mode toggle button", () => {
@@ -165,7 +165,7 @@ describe("TopNav — dark mode toggle", () => {
 		fireEvent.click(
 			screen.getByRole("button", { name: /switch to dark mode/i }),
 		);
-		expect(localStorage.getItem("mux_dark_mode")).toBe("true");
+		expect(localStorage.getItem("stellvex_dark_mode")).toBe("true");
 	});
 
 	it("persists light mode preference to localStorage", () => {
@@ -176,7 +176,7 @@ describe("TopNav — dark mode toggle", () => {
 		fireEvent.click(
 			screen.getByRole("button", { name: /switch to light mode/i }),
 		);
-		expect(localStorage.getItem("mux_dark_mode")).toBe("false");
+		expect(localStorage.getItem("stellvex_dark_mode")).toBe("false");
 	});
 });
 

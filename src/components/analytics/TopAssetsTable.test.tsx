@@ -10,8 +10,8 @@ import { TopAssetsTable } from "./TopAssetsTable";
 const ASSETS: AssetData[] = [
 	{
 		rank: 1,
-		name: "Mux Protocol",
-		symbol: "MUX",
+		name: "Stellvex Protocol",
+		symbol: "SVX",
 		volume: "$4,234,567",
 		volumeChange: 15.2,
 		tvl: "$18.2M",
@@ -120,7 +120,7 @@ describe("TopAssetsTable — row content", () => {
 
 	it("renders the full asset name", () => {
 		render(<TopAssetsTable assets={ASSETS} />);
-		expect(screen.getByText("Mux Protocol")).toBeInTheDocument();
+		expect(screen.getByText("Stellvex Protocol")).toBeInTheDocument();
 		expect(screen.getByText("Stellar")).toBeInTheDocument();
 		// USDC has the same name and symbol; getAllByText handles duplicates
 		const usdcElements = screen.getAllByText("USDC");
@@ -130,8 +130,8 @@ describe("TopAssetsTable — row content", () => {
 	it("renders the asset symbol", () => {
 		render(<TopAssetsTable assets={ASSETS} />);
 		// Symbol appears both as the avatar letter and in the symbol text
-		const muxSymbols = screen.getAllByText("MUX");
-		expect(muxSymbols.length).toBeGreaterThanOrEqual(1);
+		const svxSymbols = screen.getAllByText("SVX");
+		expect(svxSymbols.length).toBeGreaterThanOrEqual(1);
 	});
 
 	it("renders the pre-formatted volume string", () => {
@@ -180,7 +180,7 @@ describe("TopAssetsTable — row content", () => {
 
 describe("TopAssetsTable — volume change styling", () => {
 	it("applies emerald colour for a positive volume change", () => {
-		render(<TopAssetsTable assets={[ASSETS[0]]} />); // MUX: +15.2%
+		render(<TopAssetsTable assets={[ASSETS[0]]} />); // SVX: +15.2%
 		const { container } = render(<TopAssetsTable assets={[ASSETS[0]]} />);
 		const badge = container.querySelector('[class*="emerald"]');
 		expect(badge).toBeInTheDocument();

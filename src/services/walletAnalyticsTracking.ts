@@ -7,7 +7,7 @@ import { getApiBaseUrl } from "@/lib/api/config";
  * real analytics provider:
  *   1. A client-side SDK (e.g. Segment, PostHog, Amplitude) exposed as
  *      `window.analytics`, when one has been installed on the page.
- *   2. Otherwise, the Mux backend analytics endpoint (`/analytics/events`),
+ *   2. Otherwise, the Stellvex backend analytics endpoint (`/analytics/events`),
  *      when an API base URL is configured.
  *
  * In development events are also logged to the console for manual
@@ -78,9 +78,9 @@ export function trackWalletEvent(
 		return;
 	}
 
-	// Otherwise forward to the Mux backend analytics endpoint, when configured.
-	// This runs in the browser, so it must never attach Mux credentials
-	// (MUX_API_KEY/MUX_API_SECRET are server-only) — the endpoint accepts
+	// Otherwise forward to the Stellvex backend analytics endpoint, when configured.
+	// This runs in the browser, so it must never attach Stellvex credentials
+	// (STELLVEX_API_KEY/STELLVEX_API_SECRET are server-only) — the endpoint accepts
 	// unauthenticated event pings.
 	const baseUrl = getApiBaseUrl();
 	if (!baseUrl) return;

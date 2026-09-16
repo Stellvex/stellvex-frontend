@@ -46,7 +46,7 @@ export const Default: Story = {
 				id: "3",
 				type: "warning",
 				message: "Warning: Low balance",
-				description: "Your balance is below 10 MUX.",
+				description: "Your balance is below 10 SVX.",
 			},
 			{
 				id: "4",

@@ -31,8 +31,8 @@ vi.mock("@/mock-data/analytics", () => ({
 	topAssets: [
 		{
 			rank: 1,
-			name: "Mux Protocol",
-			symbol: "MUX",
+			name: "Stellvex Protocol",
+			symbol: "SVX",
 			volume: "$4M",
 			volumeChange: 15,
 			tvl: "$18M",
@@ -105,7 +105,7 @@ describe("useAnalyticsMetrics", () => {
 			topAssets: [],
 		});
 
-		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.muxprotocol.com");
+		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.stellvexprotocol.com");
 
 		const { result } = renderHook(() => useAnalyticsMetrics(RANGE));
 
@@ -128,7 +128,7 @@ describe("useAnalyticsMetrics", () => {
 			topAssets: [],
 		});
 
-		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.muxprotocol.com");
+		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.stellvexprotocol.com");
 
 		const { result } = renderHook(() => useAnalyticsMetrics(RANGE));
 
@@ -155,7 +155,7 @@ describe("useAnalyticsMetrics", () => {
 			topAssets: [],
 		});
 
-		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.muxprotocol.com");
+		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.stellvexprotocol.com");
 
 		const { result, rerender } = renderHook(
 			({ range }) => useAnalyticsMetrics(range),
@@ -199,7 +199,7 @@ describe("useAnalyticsMetrics", () => {
 		const { fetchAllAnalytics } = await import("@/services/analyticsService");
 		vi.mocked(fetchAllAnalytics).mockRejectedValue(new Error("API down"));
 
-		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.muxprotocol.com");
+		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.stellvexprotocol.com");
 
 		const { result } = renderHook(() => useAnalyticsMetrics(RANGE));
 
@@ -214,7 +214,7 @@ describe("useAnalyticsMetrics", () => {
 	// -------------------------------------------------------------------------
 
 	it("ignores stale responses when unmounted during fetch", async () => {
-		const { result, unmount } = renderHook(() => useAnalyticsMetrics(RANGE));
+		const { unmount } = renderHook(() => useAnalyticsMetrics(RANGE));
 		unmount();
 
 		await waitFor(() => {

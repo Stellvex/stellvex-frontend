@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { TopAssetsTable } from "./TopAssetsTable";
 import type { AssetData } from "@/mock-data/analytics";
+import { TopAssetsTable } from "./TopAssetsTable";
 
 /**
  * TopAssetsTable displays the highest traded assets on the platform.
- * 
+ *
  * Features:
  * - Responsive table that hides optional columns on smaller screens
  * - Copy-to-clipboard functionality for symbols, volumes, and TVL values
@@ -12,7 +12,7 @@ import type { AssetData } from "@/mock-data/analytics";
  * - Avatar badges with asset initials
  * - Toast feedback when copying values
  * - Hover state that reveals copy buttons
- * 
+ *
  * Columns:
  * - Rank (always visible)
  * - Asset (name + symbol, always visible)
@@ -51,8 +51,8 @@ export const Default: Story = {
 		assets: [
 			{
 				rank: 1,
-				name: "Mux Protocol",
-				symbol: "MUX",
+				name: "Stellvex Protocol",
+				symbol: "SVX",
 				volume: "$4,234,567",
 				volumeChange: 15.2,
 				tvl: "$18.2M",
@@ -104,8 +104,8 @@ export const AllPositive: Story = {
 		assets: [
 			{
 				rank: 1,
-				name: "Mux Protocol",
-				symbol: "MUX",
+				name: "Stellvex Protocol",
+				symbol: "SVX",
 				volume: "$8,456,789",
 				volumeChange: 45.7,
 				tvl: "$32.4M",
@@ -174,8 +174,8 @@ export const SingleAsset: Story = {
 		assets: [
 			{
 				rank: 1,
-				name: "Mux Protocol",
-				symbol: "MUX",
+				name: "Stellvex Protocol",
+				symbol: "SVX",
 				volume: "$4,234,567",
 				volumeChange: 15.2,
 				tvl: "$18.2M",
@@ -191,8 +191,8 @@ export const Top10: Story = {
 		assets: [
 			{
 				rank: 1,
-				name: "Mux Protocol",
-				symbol: "MUX",
+				name: "Stellvex Protocol",
+				symbol: "SVX",
 				volume: "$4,234,567",
 				volumeChange: 15.2,
 				tvl: "$18.2M",

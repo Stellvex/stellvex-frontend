@@ -29,15 +29,15 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-	metadataBase: new URL("https://muxprotocol.com"),
+	metadataBase: new URL("https://stellvexprotocol.com"),
 	title: {
-		default: "Mux Protocol",
-		template: "%s | Mux Protocol",
+		default: "Stellvex Protocol",
+		template: "%s | Stellvex Protocol",
 	},
 	description:
-		"Mux Protocol — a modular, non-custodial DeFi platform for cross-chain liquidity, leveraged trading, and yield optimization.",
+		"Stellvex Protocol — a modular, non-custodial DeFi platform for cross-chain liquidity, leveraged trading, and yield optimization.",
 	keywords: [
-		"Mux Protocol",
+		"Stellvex Protocol",
 		"DeFi",
 		"cross-chain",
 		"liquidity",
@@ -45,33 +45,33 @@ export const metadata: Metadata = {
 		"yield optimization",
 		"non-custodial",
 	],
-	authors: [{ name: "Mux Labs" }],
-	creator: "Mux Labs",
-	publisher: "Mux Labs",
+	authors: [{ name: "Stellvex" }],
+	creator: "Stellvex",
+	publisher: "Stellvex",
 	openGraph: {
 		type: "website",
 		locale: "en_US",
-		url: "https://muxprotocol.com",
-		siteName: "Mux Protocol",
-		title: "Mux Protocol",
+		url: "https://stellvexprotocol.com",
+		siteName: "Stellvex Protocol",
+		title: "Stellvex Protocol",
 		description:
-			"Mux Protocol — a modular, non-custodial DeFi platform for cross-chain liquidity, leveraged trading, and yield optimization.",
+			"Stellvex Protocol — a modular, non-custodial DeFi platform for cross-chain liquidity, leveraged trading, and yield optimization.",
 		images: [
 			{
 				url: "/og-image.png",
 				width: 1200,
 				height: 630,
-				alt: "Mux Protocol",
+				alt: "Stellvex Protocol",
 			},
 		],
 	},
 	twitter: {
 		card: "summary_large_image",
-		site: "@MuxProtocol",
-		creator: "@MuxProtocol",
-		title: "Mux Protocol",
+		site: "@StellvexProtocol",
+		creator: "@StellvexProtocol",
+		title: "Stellvex Protocol",
 		description:
-			"Mux Protocol — a modular, non-custodial DeFi platform for cross-chain liquidity, leveraged trading, and yield optimization.",
+			"Stellvex Protocol — a modular, non-custodial DeFi platform for cross-chain liquidity, leveraged trading, and yield optimization.",
 		images: ["/og-image.png"],
 	},
 	icons: {

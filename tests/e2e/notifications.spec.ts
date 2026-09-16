@@ -14,7 +14,7 @@ import { expect, test } from "@playwright/test";
  */
 async function signIn(page: import("@playwright/test").Page) {
 	await page.goto("/login");
-	await page.getByLabel("Email address").fill("dev@muxprotocol.com");
+	await page.getByLabel("Email address").fill("dev@stellvexprotocol.com");
 	await page.getByLabel("Password").fill("password123");
 	await page.getByTestId("login-submit").click();
 	await page.waitForURL("**/dashboard**");
@@ -40,9 +40,7 @@ test.describe("Notifications bell smoke", () => {
 		await expect(page.getByTestId("notifications-unread-dot")).toBeVisible();
 
 		await page.getByTestId("notifications-bell").click();
-		await page
-			.getByRole("button", { name: /mark all read/i })
-			.click();
+		await page.getByRole("button", { name: /mark all read/i }).click();
 
 		// Panel reconciles: the mark-all-read action removes the unread items.
 		await expect(

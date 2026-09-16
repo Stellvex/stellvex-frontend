@@ -105,7 +105,11 @@ const RowCopyButton = ({ text, label }: { text: string; label: string }) => {
 			aria-label={copied ? "Copied!" : label}
 			className="inline-flex items-center justify-center p-0.5 text-slate-400 hover:text-indigo-600 transition-colors"
 		>
-			{copied ? <Check size={12} aria-hidden /> : <Copy size={12} aria-hidden />}
+			{copied ? (
+				<Check size={12} aria-hidden />
+			) : (
+				<Copy size={12} aria-hidden />
+			)}
 		</button>
 	);
 };
@@ -299,7 +303,7 @@ export default function TransactionsTable({
 			<div className="w-full max-w-6xl mx-auto p-4 md:p-8">
 				<EmptyState
 					title="No transactions yet"
-					description="Transactions will appear here once your Mux wallets start sending or receiving XLM."
+					description="Transactions will appear here once your Stellvex wallets start sending or receiving XLM."
 				/>
 			</div>
 		);
@@ -314,7 +318,7 @@ export default function TransactionsTable({
 						Transactions
 					</h2>
 					<p className="text-slate-500 text-sm mt-1">
-						Stellar on-chain activity for Mux wallets.
+						Stellar on-chain activity for Stellvex wallets.
 					</p>
 				</div>
 
@@ -467,11 +471,7 @@ export default function TransactionsTable({
 								)}
 							</div>
 						) : (
-							<div
-								key={key}
-								role="columnheader"
-								className={`col-span-${span}`}
-							>
+							<div key={key} role="columnheader" className={`col-span-${span}`}>
 								{label}
 							</div>
 						),
@@ -555,9 +555,7 @@ export default function TransactionsTable({
 									</div>
 									<div className="flex justify-between text-xs text-slate-500">
 										<span className="flex items-center gap-0.5">
-											<span className="font-medium text-slate-700">
-												From:{" "}
-											</span>
+											<span className="font-medium text-slate-700">From: </span>
 											<span className="font-mono" title={tx.from}>
 												{truncate(tx.from)}
 											</span>
@@ -567,9 +565,7 @@ export default function TransactionsTable({
 											/>
 										</span>
 										<span className="flex items-center gap-0.5">
-											<span className="font-medium text-slate-700">
-												To:{" "}
-											</span>
+											<span className="font-medium text-slate-700">To: </span>
 											<span className="font-mono" title={tx.to}>
 												{truncate(tx.to)}
 											</span>

@@ -12,7 +12,7 @@
   </defs>
   <rect width="1200" height="630" fill="url(#bg)"/>
   <rect x="100" y="60" width="1000" height="510" rx="24" fill="none" stroke="url(#accent)" stroke-width="2" opacity="0.3"/>
-  <text x="600" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="2">Mux Protocol</text>
+  <text x="600" y="280" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="bold" fill="#ffffff" text-anchor="middle" letter-spacing="2">Stellvex Protocol</text>
   <text x="600" y="360" font-family="system-ui, -apple-system, sans-serif" font-size="28" fill="#a5b4fc" text-anchor="middle" letter-spacing="4">MODULAR • NON-CUSTODIAL • DEFI</text>
   <line x1="540" y1="400" x2="660" y2="400" stroke="#6366f1" stroke-width="3"/>
 </svg>

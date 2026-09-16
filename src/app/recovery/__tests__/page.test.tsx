@@ -249,7 +249,7 @@ describe("RecoveryPage", () => {
 			for (const link of docsLinks) {
 				expect(link).toHaveAttribute(
 					"href",
-					"https://docs.mux.network/recovery",
+					"https://docs.stellvexprotocol.com/recovery",
 				);
 			}
 		});

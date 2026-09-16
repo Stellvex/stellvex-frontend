@@ -3,7 +3,7 @@
  * `/api/activity` (see src/app/api/activity/route.ts).
  *
  * This is a placeholder for the real immutable audit log, which is owned by
- * mux-backend and served over the real `/activity` endpoint once
+ * stellvex-backend and served over the real `/activity` endpoint once
  * `NEXT_PUBLIC_API_URL` is configured. Entries appended here are frozen and
  * never mutated or removed, mirroring the append-only contract the real
  * backend log must uphold — but the store itself is in-memory and resets on

@@ -61,7 +61,7 @@ The test suite (`useBalanceVisibility.dom-leak.test.ts`) fails if:
 ### Production vs demo/mock split
 
 `useBalanceVisibility` is purely client-side state — no backend call
-involved. The `localStorage` key is `mux_balance_visibility`. There is no
+involved. The `localStorage` key is `stellvex_balance_visibility`. There is no
 mock mode for this hook; it behaves identically in dev and production.
 
 ---

@@ -96,7 +96,7 @@ describe("POST /api/auth/refresh", () => {
 			).mock.calls[0][1];
 			expect(init.headers.authorization).toBe("Bearer stale-token");
 
-			const cookie = res.cookies.get("mux_auth_token");
+			const cookie = res.cookies.get("stellvex_auth_token");
 			expect(cookie?.value).toBe("rotated-token-xyz");
 			expect(cookie?.httpOnly).toBe(true);
 			expect(cookie?.sameSite).toBe("lax");
@@ -110,15 +110,14 @@ describe("POST /api/auth/refresh", () => {
 				vi.fn().mockResolvedValue({
 					ok: true,
 					status: 200,
-					json: () =>
-						Promise.resolve({ token: "secure-token-123" }),
+					json: () => Promise.resolve({ token: "secure-token-123" }),
 				}),
 			);
 
 			const res = await POST(makeRequest({ refreshToken: "x" }));
 
 			expect(res.status).toBe(200);
-			const cookie = res.cookies.get("mux_auth_token");
+			const cookie = res.cookies.get("stellvex_auth_token");
 			expect(cookie?.value).toBe("secure-token-123");
 			expect(cookie?.secure).toBe(true);
 			expect(cookie?.httpOnly).toBe(true);
@@ -132,8 +131,7 @@ describe("POST /api/auth/refresh", () => {
 				vi.fn().mockResolvedValue({
 					ok: true,
 					status: 200,
-					json: () =>
-						Promise.resolve({ accessToken: "new-token" }),
+					json: () => Promise.resolve({ accessToken: "new-token" }),
 				}),
 			);
 
@@ -142,7 +140,7 @@ describe("POST /api/auth/refresh", () => {
 					{ refreshToken: "x" },
 					{
 						authorization: "Bearer old",
-						cookie: "mux_auth_token=old-session",
+						cookie: "stellvex_auth_token=old-session",
 					},
 				),
 			);
@@ -152,7 +150,7 @@ describe("POST /api/auth/refresh", () => {
 					mock: { calls: [string, { headers: Record<string, string> }][] };
 				}
 			).mock.calls[0][1];
-			expect(init.headers.cookie).toBe("mux_auth_token=old-session");
+			expect(init.headers.cookie).toBe("stellvex_auth_token=old-session");
 			expect(init.headers.authorization).toBe("Bearer old");
 		});
 
@@ -165,8 +163,7 @@ describe("POST /api/auth/refresh", () => {
 				vi.fn().mockResolvedValue({
 					ok: true,
 					status: 200,
-					json: () =>
-						Promise.resolve({ accessToken: "new-token" }),
+					json: () => Promise.resolve({ accessToken: "new-token" }),
 				}),
 			);
 
@@ -188,8 +185,7 @@ describe("POST /api/auth/refresh", () => {
 				vi.fn().mockResolvedValue({
 					ok: true,
 					status: 200,
-					json: () =>
-						Promise.resolve({ accessToken: "tok" }),
+					json: () => Promise.resolve({ accessToken: "tok" }),
 				}),
 			);
 
@@ -216,7 +212,7 @@ describe("POST /api/auth/refresh", () => {
 			);
 
 			const res = await POST(makeRequest({ refreshToken: "x" }));
-			const cookie = res.cookies.get("mux_auth_token");
+			const cookie = res.cookies.get("stellvex_auth_token");
 			expect(cookie?.value).toBe("rotated-via-sessionToken");
 		});
 
@@ -227,13 +223,12 @@ describe("POST /api/auth/refresh", () => {
 				vi.fn().mockResolvedValue({
 					ok: true,
 					status: 200,
-					json: () =>
-						Promise.resolve({ token: "rotated-via-token" }),
+					json: () => Promise.resolve({ token: "rotated-via-token" }),
 				}),
 			);
 
 			const res = await POST(makeRequest({ refreshToken: "x" }));
-			const cookie = res.cookies.get("mux_auth_token");
+			const cookie = res.cookies.get("stellvex_auth_token");
 			expect(cookie?.value).toBe("rotated-via-token");
 		});
 
@@ -244,14 +239,13 @@ describe("POST /api/auth/refresh", () => {
 				vi.fn().mockResolvedValue({
 					ok: true,
 					status: 200,
-					json: () =>
-						Promise.resolve({ message: "ok" }),
+					json: () => Promise.resolve({ message: "ok" }),
 				}),
 			);
 
 			const res = await POST(makeRequest({ refreshToken: "x" }));
 			expect(res.status).toBe(200);
-			expect(res.cookies.get("mux_auth_token")).toBeUndefined();
+			expect(res.cookies.get("stellvex_auth_token")).toBeUndefined();
 		});
 
 		it("passes an upstream 401 through unchanged", async () => {
@@ -290,7 +284,9 @@ describe("POST /api/auth/refresh", () => {
 			vi.stubEnv("NEXT_PUBLIC_API_BASE", "");
 			vi.stubEnv("NODE_ENV", "production");
 
-			const res = await POST(makeRequest({ refreshToken: "mock-refresh-token" }));
+			const res = await POST(
+				makeRequest({ refreshToken: "mock-refresh-token" }),
+			);
 
 			expect(res.status).toBe(503);
 			const body = await res.json();

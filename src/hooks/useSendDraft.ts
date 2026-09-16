@@ -60,7 +60,7 @@ export interface UseSendDraftOptions {
  * `useMutation` wrapper for the send-flow draft step (issue #616 / #619).
  *
  * In production this always round-trips through `/api/send/draft`, which
- * proxies to `mux-backend` and never returns a fabricated success.
+ * proxies to `stellvex-backend` and never returns a fabricated success.
  */
 export function useSendDraft({
 	demo = false,

@@ -7,7 +7,7 @@ describe("POST /api/auth/logout (#622)", () => {
 		expect(res.status).toBe(200);
 
 		const setCookie = res.headers.get("set-cookie") ?? "";
-		expect(setCookie).toContain("mux_auth_session=");
+		expect(setCookie).toContain("stellvex_auth_session=");
 		expect(setCookie.toLowerCase()).toContain("max-age=0");
 		expect(setCookie.toLowerCase()).toContain("httponly");
 	});

@@ -5,7 +5,7 @@
  * fallback when no backend URL (`NEXT_PUBLIC_API_URL`/legacy aliases) is
  * configured, so local dev/CI keeps working without a running API server. In
  * any environment with a backend configured, per-key usage is served by the
- * real mux-backend API instead. Never used as a source of truth in
+ * real stellvex-backend API instead. Never used as a source of truth in
  * production — see `isMockFallbackAllowed()` in `src/lib/api/config.ts`.
  */
 
@@ -66,7 +66,8 @@ export function getApiKeyUsage(apiKeyId: string): ApiKeyUsageSummary {
 		(sum, point) => sum + point.requests,
 		0,
 	);
-	const requestsLast24h = dailyRequests[dailyRequests.length - 1]?.requests ?? 0;
+	const requestsLast24h =
+		dailyRequests[dailyRequests.length - 1]?.requests ?? 0;
 
 	return {
 		apiKeyId,

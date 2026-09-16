@@ -10,7 +10,7 @@ import type { Transaction } from "@/types/transaction";
  * and days other than the latest one belong to a previous period.
  *
  * The production `/api/spending-limits` route gets this number straight
- * from `mux-backend`; this helper is what the demo route
+ * from `stellvex-backend`; this helper is what the demo route
  * (`/api/demo/spending-limits`) uses so its number tracks the mock
  * transaction store instead of always reporting the same figure.
  */

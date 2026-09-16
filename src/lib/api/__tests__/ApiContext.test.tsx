@@ -20,7 +20,7 @@ describe("ApiProvider", () => {
 
 	it("never attaches a server-only credential to client-side requests (#636)", async () => {
 		// Even if MUX_API_KEY leaked into the browser bundle, ApiProvider must
-		// not read or forward it — the browser has no business holding Mux
+		// not read or forward it — the browser has no business holding Stellvex
 		// credentials at all.
 		vi.stubEnv("MUX_API_KEY", "server-secret-key");
 		vi.stubEnv("NEXT_PUBLIC_MUX_API_KEY", "legacy-public-key");

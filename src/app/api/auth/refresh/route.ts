@@ -16,7 +16,7 @@ const VALID_REFRESH_TOKEN = "mock-refresh-token";
  *  - A backend is configured (`NEXT_PUBLIC_API_URL` / legacy aliases): the
  *    request is proxied to `{backend}/auth/refresh`, forwarding the caller's
  *    `Authorization` header and session cookie. A rotated opaque token in the
- *    response refreshes the HttpOnly `mux_auth_token` cookie (#626/#627).
+ *    response refreshes the HttpOnly `stellvex_auth_token` cookie (#626/#627).
  *  - No backend + non-production build: mints a mock access token for the
  *    hardcoded mock refresh token so `pnpm dev` / CI / `/demo` keep working.
  *  - No backend + production build: refuses with `503 backend_unavailable`,

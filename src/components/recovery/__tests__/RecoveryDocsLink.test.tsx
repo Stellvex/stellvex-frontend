@@ -8,7 +8,10 @@ describe("RecoveryDocsLink", () => {
 			name: /read recovery documentation/i,
 		});
 		expect(link).toBeInTheDocument();
-		expect(link).toHaveAttribute("href", "https://docs.mux.network/recovery");
+		expect(link).toHaveAttribute(
+			"href",
+			"https://docs.stellvexprotocol.com/recovery",
+		);
 		expect(link).toHaveAttribute("target", "_blank");
 		expect(link).toHaveAttribute("rel", "noopener noreferrer");
 	});

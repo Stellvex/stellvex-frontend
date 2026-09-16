@@ -16,7 +16,9 @@ export interface SpendingLimitsResponse {
 }
 
 function backendHeaders(request: Request): Record<string, string> {
-	const headers: Record<string, string> = { "content-type": "application/json" };
+	const headers: Record<string, string> = {
+		"content-type": "application/json",
+	};
 	const apiKey = getServerApiKey();
 	const authorization = request.headers.get("authorization");
 
@@ -68,7 +70,7 @@ export async function GET(request: Request) {
 				{
 					error: "backend_unavailable",
 					message:
-						"No spending-limits backend is configured for this production deployment. Set MUX_BACKEND_URL.",
+						"No spending-limits backend is configured for this production deployment. Set STELLVEX_BACKEND_URL.",
 				},
 				{ status: 503 },
 			);
@@ -126,7 +128,10 @@ export async function PUT(request: Request) {
 	}
 
 	if (dailyLimit < 1 || transactionLimit < 1) {
-		return NextResponse.json({ error: "Limits must be at least 1" }, { status: 400 });
+		return NextResponse.json(
+			{ error: "Limits must be at least 1" },
+			{ status: 400 },
+		);
 	}
 	if (dailyLimit > 1000000 || transactionLimit > 1000000) {
 		return NextResponse.json(

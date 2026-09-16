@@ -74,17 +74,17 @@ interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 /** sessionStorage key for the user record (client-side rehydration). */
-export const SESSION_STORAGE_KEY = "mux_auth_user";
+export const SESSION_STORAGE_KEY = "stellvex_auth_user";
 
 /**
  * Legacy client-set marker cookie (value "1").
  *
  * Since #621 this is only trusted by the middleware in **mock mode** (no
  * `NEXT_PUBLIC_API_URL` configured). When a backend is configured, route
- * protection requires the HttpOnly, backend-verified `mux_auth_token` cookie
+ * protection requires the HttpOnly, backend-verified `stellvex_auth_token` cookie
  * set by `/api/auth/login` — see `src/lib/auth/routeAccess.ts`.
  */
-export const SESSION_COOKIE_NAME = "mux_auth_session";
+export const SESSION_COOKIE_NAME = "stellvex_auth_session";
 
 /** Default session lifetime: 8 hours. */
 const DEFAULT_TTL_MS = 8 * 60 * 60 * 1000;
@@ -94,7 +94,7 @@ const DEFAULT_TTL_MS = 8 * 60 * 60 * 1000;
 //
 // CSRF / SameSite Notes:
 //
-// The `mux_auth_session` cookie is a lightweight marker cookie (value "1")
+// The `stellvex_auth_session` cookie is a lightweight marker cookie (value "1")
 // used solely by the Next.js middleware for server-side route protection.
 // It does NOT contain sensitive data — tokens live in `sessionStorage`.
 //
@@ -111,7 +111,7 @@ const DEFAULT_TTL_MS = 8 * 60 * 60 * 1000;
 //
 // HttpOnly:
 //   The authoritative session token is the HttpOnly, backend-verified
-//   `mux_auth_token` cookie set server-side by `/api/auth/login` (see
+//   `stellvex_auth_token` cookie set server-side by `/api/auth/login` (see
 //   `src/app/api/auth/login/route.ts`). This client-set marker cookie
 //   intentionally cannot be HttpOnly and carries no secret — it only lets
 //   the middleware's non-production presence check recognise a session.
@@ -228,7 +228,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		clearSessionCookie();
 		// Drop the bearer-token session used by `src/lib/api.js` (#628).
 		clearBearerSession();
-		// The backend-issued `mux_auth_token` cookie is HttpOnly, so it can only
+		// The backend-issued `stellvex_auth_token` cookie is HttpOnly, so it can only
 		// be cleared server-side (#621). Fire-and-forget — the client-side
 		// cleanup below stands regardless of whether this request succeeds.
 		try {

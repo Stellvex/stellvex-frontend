@@ -7,7 +7,7 @@
  * say as much): the mock `/api/auth/login` accepts any well-formed
  * credentials, and the mock `/api/wallets` checks a hardcoded bearer token
  * (`mock-access-token`, see src/app/api/wallets/route.ts). Pointed at a
- * real mux-backend, those assumptions don't hold — this directory closes
+ * real stellvex-backend, those assumptions don't hold — this directory closes
  * that gap with specs that never stub a route and never assume the mock
  * fixture data or mock credentials.
  */
@@ -38,7 +38,7 @@ export function readRealBackendEnv(): RealBackendEnv | null {
 
 export const REAL_BACKEND_SKIP_REASON =
 	"Real-backend e2e specs require NEXT_PUBLIC_API_URL, E2E_TEST_EMAIL, and " +
-	"E2E_TEST_PASSWORD to point at a live mux-backend and a real test " +
+	"E2E_TEST_PASSWORD to point at a live stellvex-backend and a real test " +
 	"account. Run via `pnpm exec playwright test " +
 	"--config=playwright.real-backend.config.ts` with those set (see " +
 	"tests/e2e/real-backend/README.md). Skipping is expected for the " +

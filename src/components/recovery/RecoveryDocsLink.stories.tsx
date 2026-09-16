@@ -54,7 +54,7 @@ export const CustomLabel: Story<typeof RecoveryDocsLink> = {
 
 export const CustomHref: Story<typeof RecoveryDocsLink> = {
 	args: {
-		href: "https://docs.mux.network/guides/recovery",
+		href: "https://docs.stellvexprotocol.com/guides/recovery",
 		children: "Full Recovery Guide",
 	},
 };

@@ -16,7 +16,7 @@ function formatLastUsed(lastUsedAt: string | null): string {
 
 /**
  * Per-key usage analytics (roadmap item: "Per-key usage analytics").
- * Reads from `useApiKeyUsage`, which proxies to the real mux-backend when
+ * Reads from `useApiKeyUsage`, which proxies to the real stellvex-backend when
  * configured and only falls back to mock data outside production builds.
  */
 export function ApiKeyUsageAnalytics({

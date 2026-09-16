@@ -21,11 +21,11 @@
  *  - The persisted value diverges from the in-memory state.
  */
 
-import { renderHook, act } from "@testing-library/react";
-import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
+import { act, renderHook } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useBalanceVisibility } from "../useBalanceVisibility";
 
-const STORAGE_KEY = "mux_balance_visibility";
+const STORAGE_KEY = "stellvex_balance_visibility";
 
 describe("#701 useBalanceVisibility – DOM leak guard", () => {
 	beforeEach(() => {
@@ -85,10 +85,14 @@ describe("#701 useBalanceVisibility – DOM leak guard", () => {
 		expect(result.current.isVisible).toBe(false);
 
 		// toggle twice → back to hidden
-		act(() => { result.current.toggleVisibility(); });
+		act(() => {
+			result.current.toggleVisibility();
+		});
 		expect(result.current.isVisible).toBe(true);
 
-		act(() => { result.current.toggleVisibility(); });
+		act(() => {
+			result.current.toggleVisibility();
+		});
 		expect(result.current.isVisible).toBe(false);
 	});
 
@@ -96,7 +100,9 @@ describe("#701 useBalanceVisibility – DOM leak guard", () => {
 		const { result } = renderHook(() => useBalanceVisibility(true));
 
 		// start visible, toggle to hidden
-		act(() => { result.current.toggleVisibility(); });
+		act(() => {
+			result.current.toggleVisibility();
+		});
 
 		expect(result.current.isVisible).toBe(false);
 		expect(window.localStorage.getItem(STORAGE_KEY)).toBe("false");
@@ -110,7 +116,9 @@ describe("#701 useBalanceVisibility – DOM leak guard", () => {
 		const { result } = renderHook(() => useBalanceVisibility(false));
 
 		for (let i = 0; i < 5; i++) {
-			act(() => { result.current.toggleVisibility(); });
+			act(() => {
+				result.current.toggleVisibility();
+			});
 			const persisted = window.localStorage.getItem(STORAGE_KEY);
 			expect(String(result.current.isVisible)).toBe(persisted);
 		}
@@ -152,7 +160,9 @@ describe("#701 useBalanceVisibility – DOM leak guard", () => {
 	it("falls back to defaultVisibility (false) when localStorage.getItem throws, keeping balance hidden", () => {
 		const spy = vi
 			.spyOn(Storage.prototype, "getItem")
-			.mockImplementation(() => { throw new Error("QuotaExceeded"); });
+			.mockImplementation(() => {
+				throw new Error("QuotaExceeded");
+			});
 		const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
 		const { result } = renderHook(() => useBalanceVisibility(false));
@@ -169,7 +179,9 @@ describe("#701 useBalanceVisibility – DOM leak guard", () => {
 	it("falls back to defaultVisibility (true) when localStorage.getItem throws, keeping balance visible", () => {
 		const spy = vi
 			.spyOn(Storage.prototype, "getItem")
-			.mockImplementation(() => { throw new Error("SecurityError"); });
+			.mockImplementation(() => {
+				throw new Error("SecurityError");
+			});
 		const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
 		const { result } = renderHook(() => useBalanceVisibility(true));
@@ -184,12 +196,16 @@ describe("#701 useBalanceVisibility – DOM leak guard", () => {
 	it("localStorage.setItem failure does not corrupt in-memory toggle state", () => {
 		const spy = vi
 			.spyOn(Storage.prototype, "setItem")
-			.mockImplementation(() => { throw new Error("QuotaExceeded"); });
+			.mockImplementation(() => {
+				throw new Error("QuotaExceeded");
+			});
 		const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
 
 		const { result } = renderHook(() => useBalanceVisibility(false));
 
-		act(() => { result.current.toggleVisibility(); });
+		act(() => {
+			result.current.toggleVisibility();
+		});
 
 		// In-memory state toggled even though persistence failed.
 		expect(result.current.isVisible).toBe(true);
@@ -211,11 +227,15 @@ describe("#701 useBalanceVisibility – DOM leak guard", () => {
 		// hidden → aria-pressed should be false
 		expect(result.current.isVisible).toBe(false);
 
-		act(() => { result.current.toggleVisibility(); });
+		act(() => {
+			result.current.toggleVisibility();
+		});
 		// visible → aria-pressed should be true
 		expect(result.current.isVisible).toBe(true);
 
-		act(() => { result.current.toggleVisibility(); });
+		act(() => {
+			result.current.toggleVisibility();
+		});
 		// hidden again → aria-pressed should be false
 		expect(result.current.isVisible).toBe(false);
 	});

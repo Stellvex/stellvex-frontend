@@ -1,5 +1,5 @@
-import { renderHook, act } from "@testing-library/react";
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { act, renderHook } from "@testing-library/react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { useBalanceVisibility } from "../useBalanceVisibility";
 
 describe("useBalanceVisibility", () => {
@@ -16,7 +16,7 @@ describe("useBalanceVisibility", () => {
 	});
 
 	it("reads from localStorage on mount", () => {
-		window.localStorage.setItem("mux_balance_visibility", "true");
+		window.localStorage.setItem("stellvex_balance_visibility", "true");
 		const { result } = renderHook(() => useBalanceVisibility(false));
 
 		expect(result.current.isVisible).toBe(true);
@@ -30,7 +30,9 @@ describe("useBalanceVisibility", () => {
 		});
 
 		expect(result.current.isVisible).toBe(true);
-		expect(window.localStorage.getItem("mux_balance_visibility")).toBe("true");
+		expect(window.localStorage.getItem("stellvex_balance_visibility")).toBe(
+			"true",
+		);
 	});
 
 	it("handles localStorage errors gracefully", () => {

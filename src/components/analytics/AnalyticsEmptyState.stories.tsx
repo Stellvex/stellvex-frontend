@@ -3,7 +3,7 @@ import { AnalyticsEmptyState } from "./AnalyticsEmptyState";
 
 /**
  * AnalyticsEmptyState displays when there is no analytics data to show.
- * 
+ *
  * Features:
  * - Icon display (default chart icon or custom)
  * - Customizable title and description
@@ -12,7 +12,7 @@ import { AnalyticsEmptyState } from "./AnalyticsEmptyState";
  * - Responsive design
  * - Dark mode support
  * - Accessibility compliant with role="status"
- * 
+ *
  * Use cases:
  * - No activity yet (new accounts)
  * - Empty date range (no transactions)
@@ -65,7 +65,7 @@ export const NewAccount: Story = {
 	args: {
 		title: "Welcome to Analytics",
 		description:
-			"Start using Mux Protocol to see your analytics data here. Volume, transactions, and asset performance will appear once you begin trading.",
+			"Start using Stellvex Protocol to see your analytics data here. Volume, transactions, and asset performance will appear once you begin trading.",
 		action: {
 			label: "Start Trading",
 			onClick: () => console.log("Navigate to trading"),

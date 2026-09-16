@@ -84,7 +84,7 @@ describe("POST /api/auth/login (#325)", () => {
 	});
 
 	describe("server-verified session cookie (#621)", () => {
-		it("sets an HttpOnly mux_auth_token cookie from the backend token", async () => {
+		it("sets an HttpOnly stellvex_auth_token cookie from the backend token", async () => {
 			vi.stubEnv("NEXT_PUBLIC_API_URL", "https://api.example.com");
 			vi.stubGlobal(
 				"fetch",
@@ -107,7 +107,7 @@ describe("POST /api/auth/login (#325)", () => {
 				makeRequest({ email: "jane@example.com", password: "secret123" }),
 			);
 			expect(res.status).toBe(200);
-			const cookie = res.cookies.get("mux_auth_token");
+			const cookie = res.cookies.get("stellvex_auth_token");
 			expect(cookie?.value).toBe("backend-session-token-abc");
 			expect(cookie?.httpOnly).toBe(true);
 			expect(cookie?.sameSite).toBe("lax");
@@ -135,7 +135,7 @@ describe("POST /api/auth/login (#325)", () => {
 				makeRequest({ email: "jane@example.com", password: "secret123" }),
 			);
 			expect(res.status).toBe(200);
-			expect(res.cookies.get("mux_auth_token")).toBeUndefined();
+			expect(res.cookies.get("stellvex_auth_token")).toBeUndefined();
 		});
 	});
 

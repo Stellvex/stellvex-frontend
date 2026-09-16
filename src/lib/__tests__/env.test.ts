@@ -86,26 +86,31 @@ describe("getEnv", () => {
 
 	it("does not apply documented defaults outside production", () => {
 		vi.stubEnv("NODE_ENV", "test");
-		expect(getEnv().NEXT_PUBLIC_MUX_API_URL).toBeUndefined();
+		expect(getEnv().NEXT_PUBLIC_STELLVEX_API_URL).toBeUndefined();
 	});
 
 	it("applies documented defaults for unset vars in production (#637)", () => {
 		vi.stubEnv("NODE_ENV", "production");
 		vi.stubEnv("NEXT_PUBLIC_API_URL", "");
-		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "");
+		vi.stubEnv("NEXT_PUBLIC_STELLVEX_API_URL", "");
 		vi.stubEnv("NEXT_PUBLIC_APP_URL", "");
 
 		const result = getEnv();
 
-		expect(result.NEXT_PUBLIC_MUX_API_URL).toBe("https://api.muxprotocol.com");
+		expect(result.NEXT_PUBLIC_STELLVEX_API_URL).toBe(
+			"https://api.stellvexprotocol.com",
+		);
 		expect(result.NEXT_PUBLIC_APP_URL).toBe("http://localhost:3000");
 	});
 
 	it("never overrides an explicitly configured value with the default", () => {
 		vi.stubEnv("NODE_ENV", "production");
-		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://custom-backend.example.com");
+		vi.stubEnv(
+			"NEXT_PUBLIC_STELLVEX_API_URL",
+			"https://custom-backend.example.com",
+		);
 
-		expect(getEnv().NEXT_PUBLIC_MUX_API_URL).toBe(
+		expect(getEnv().NEXT_PUBLIC_STELLVEX_API_URL).toBe(
 			"https://custom-backend.example.com",
 		);
 	});
@@ -115,6 +120,13 @@ describe("getEnv", () => {
 		vi.stubEnv("NEXT_PUBLIC_API_URL", "");
 
 		expect(getEnv().NEXT_PUBLIC_API_URL).toBeFalsy();
+	});
+
+	it("no longer applies a default to the deprecated NEXT_PUBLIC_MUX_API_URL alias", () => {
+		vi.stubEnv("NODE_ENV", "production");
+		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "");
+
+		expect(getEnv().NEXT_PUBLIC_MUX_API_URL).toBeFalsy();
 	});
 });
 
@@ -145,7 +157,9 @@ describe("assertServerSide", () => {
 		// @ts-expect-error — intentionally setting window to simulate browser
 		globalThis.window = {};
 		try {
-			expect(() => assertServerSide("MUX_API_SECRET")).toThrow(/MUX_API_SECRET/);
+			expect(() => assertServerSide("MUX_API_SECRET")).toThrow(
+				/MUX_API_SECRET/,
+			);
 		} finally {
 			globalThis.window = originalWindow;
 		}

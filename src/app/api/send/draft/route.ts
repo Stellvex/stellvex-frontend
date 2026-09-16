@@ -114,7 +114,7 @@ export async function POST(request: Request) {
 		return NextResponse.json(
 			{
 				error:
-					"Send service is not configured. Set NEXT_PUBLIC_API_URL to a mux-backend URL.",
+					"Send service is not configured. Set NEXT_PUBLIC_API_URL to a stellvex-backend URL.",
 			},
 			{ status: 501 },
 		);

@@ -1,5 +1,5 @@
 /**
- * Analytics domain types for Mux Protocol.
+ * Analytics domain types for Stellvex Protocol.
  * Shared between the analytics page, mock data, and export utilities.
  */
 
@@ -85,9 +85,9 @@ export interface ChartDataPoint {
 export interface AssetData {
 	/** 1-based ranking position. */
 	rank: number;
-	/** Full asset name, e.g. "Mux Protocol". */
+	/** Full asset name, e.g. "Stellvex Protocol". */
 	name: string;
-	/** Ticker symbol, e.g. "MUX". */
+	/** Ticker symbol, e.g. "SVX". */
 	symbol: string;
 	/** Pre-formatted trading volume string, e.g. "$4,234,567". */
 	volume: string;

@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 
 /**
- * Playwright configuration for Mux Dashboard end-to-end smoke tests.
+ * Playwright configuration for Stellvex Dashboard end-to-end smoke tests.
  *
  * Smoke specs live in `tests/e2e/` and exercise the primary user paths
  * (login, wallet monitoring) against a locally running dev server. The

@@ -7,7 +7,31 @@
  */
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-
+import { InitiateRecoveryCTA } from "../InitiateRecoveryCTA";
+// InitiateRecoveryCTA stories
+import {
+	Confirming,
+	Idle,
+	Pending,
+	Success,
+	WithError,
+} from "../InitiateRecoveryCTA.stories";
+import { RecoveryDocsLink } from "../RecoveryDocsLink";
+// RecoveryDocsLink stories
+import {
+	CustomHref,
+	CustomLabel,
+	Default as DocsLinkDefault,
+} from "../RecoveryDocsLink.stories";
+import { RecoveryFAQ } from "../RecoveryFAQ";
+// RecoveryFAQ stories
+import {
+	CustomItems,
+	Empty,
+	Default as FAQDefault,
+	SingleItem,
+} from "../RecoveryFAQ.stories";
+import { RecoveryStatus } from "../RecoveryStatus";
 // RecoveryStatus stories
 import {
 	Active,
@@ -18,34 +42,6 @@ import {
 	Ready,
 	Unknown,
 } from "../RecoveryStatus.stories";
-import { RecoveryStatus } from "../RecoveryStatus";
-
-// RecoveryDocsLink stories
-import {
-	CustomHref,
-	CustomLabel,
-	Default as DocsLinkDefault,
-} from "../RecoveryDocsLink.stories";
-import { RecoveryDocsLink } from "../RecoveryDocsLink";
-
-// RecoveryFAQ stories
-import {
-	CustomItems,
-	Default as FAQDefault,
-	Empty,
-	SingleItem,
-} from "../RecoveryFAQ.stories";
-import { RecoveryFAQ } from "../RecoveryFAQ";
-
-// InitiateRecoveryCTA stories
-import {
-	Confirming,
-	Idle,
-	Pending,
-	Success,
-	WithError,
-} from "../InitiateRecoveryCTA.stories";
-import { InitiateRecoveryCTA } from "../InitiateRecoveryCTA";
 
 // ---------------------------------------------------------------------------
 // RecoveryStatus stories
@@ -114,7 +110,7 @@ describe("RecoveryDocsLink stories", () => {
 		const link = screen.getByRole("link");
 		expect(link).toHaveAttribute(
 			"href",
-			"https://docs.mux.network/guides/recovery",
+			"https://docs.stellvexprotocol.com/guides/recovery",
 		);
 	});
 });

@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
+import { beforeEach, describe, expect, it } from "vitest";
 import "@testing-library/jest-dom";
 
 /**
@@ -31,11 +31,11 @@ describe("LoginPage - Dark Mode Styles", () => {
 		document.documentElement.classList.add("dark");
 		render(
 			<h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-				Mux Protocol
+				Stellvex Protocol
 			</h1>,
 		);
 
-		const heading = screen.getByText("Mux Protocol");
+		const heading = screen.getByText("Stellvex Protocol");
 		expect(heading).toHaveClass("dark:text-white");
 	});
 
@@ -80,7 +80,7 @@ describe("LoginPage - Dark Mode Styles", () => {
 
 	it("applies dark mode classes to welcome hint", () => {
 		document.documentElement.classList.add("dark");
-		const { container } = render(
+		render(
 			<div className="border border-blue-100 bg-blue-50 dark:border-blue-900/50 dark:bg-blue-950/30">
 				<p className="text-blue-700 dark:text-blue-300">Welcome</p>
 			</div>,

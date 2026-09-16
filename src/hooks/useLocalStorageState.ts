@@ -29,7 +29,7 @@ function checkStorageAvailability() {
 	}
 
 	try {
-		const testKey = "__mux_storage_test__";
+		const testKey = "__stellvex_storage_test__";
 		window.localStorage.setItem(testKey, testKey);
 		window.localStorage.removeItem(testKey);
 		return true;

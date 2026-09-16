@@ -5,14 +5,14 @@ import { expect, test } from "@playwright/test";
  * error, empty, and populated data states, plus the sidebar navigation
  * that links into this page.
  *
- * `/dashboard/*` is protected by `mux_auth_session` (see
+ * `/dashboard/*` is protected by `stellvex_auth_session` (see
  * src/middleware.ts) so every test signs in through the real login flow
  * first rather than seeding a cookie directly — this keeps the smoke
  * suite honest about the actual user path.
  */
 async function signIn(page: import("@playwright/test").Page) {
 	await page.goto("/login");
-	await page.getByLabel("Email address").fill("dev@muxprotocol.com");
+	await page.getByLabel("Email address").fill("dev@stellvexprotocol.com");
 	await page.getByLabel("Password").fill("password123");
 	await page.getByTestId("login-submit").click();
 	await page.waitForURL("**/dashboard**");

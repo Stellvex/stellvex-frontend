@@ -5,7 +5,7 @@
  * no backend URL (`NEXT_PUBLIC_API_URL`/legacy aliases) is configured, so
  * local dev/CI keeps working without a running API server. In any
  * environment with a backend configured, list/add/remove are served by the
- * real mux-backend API instead. No custody secrets live here — only
+ * real stellvex-backend API instead. No custody secrets live here — only
  * name/email/role.
  */
 import type { TeamMember } from "@/types/team";

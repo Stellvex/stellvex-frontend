@@ -6,11 +6,10 @@
  */
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-
-import { RecoveryStatus } from "../RecoveryStatus";
 import { RecoveryDocsLink } from "../RecoveryDocsLink";
 import { RecoveryFAQ } from "../RecoveryFAQ";
 import { RecoveryLoadingState } from "../RecoveryLoadingState";
+import { RecoveryStatus } from "../RecoveryStatus";
 
 // ---------------------------------------------------------------------------
 // RecoveryStatus props
@@ -61,11 +60,11 @@ describe("RecoveryStatus — documented props", () => {
 // RecoveryDocsLink props
 // ---------------------------------------------------------------------------
 describe("RecoveryDocsLink — documented props", () => {
-	it("defaults href to https://docs.mux.network/recovery", () => {
+	it("defaults href to https://docs.stellvexprotocol.com/recovery", () => {
 		render(<RecoveryDocsLink />);
 		expect(screen.getByRole("link")).toHaveAttribute(
 			"href",
-			"https://docs.mux.network/recovery",
+			"https://docs.stellvexprotocol.com/recovery",
 		);
 	});
 

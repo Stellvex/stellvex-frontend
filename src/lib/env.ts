@@ -6,7 +6,9 @@
  * Private vars are only validated on the server side.
  *
  * Server-only guard (#694):
- *   MUX_API_SECRET and MUX_API_KEY must never be read from client-side code.
+ *   STELLVEX_API_SECRET and STELLVEX_API_KEY (and their deprecated
+ *   MUX_API_SECRET / MUX_API_KEY aliases) must never be read from
+ *   client-side code.
  *   Next.js strips non-NEXT_PUBLIC_* vars from the browser bundle at build
  *   time, so these will always be undefined in the browser.  As an extra
  *   defence-in-depth measure, `getServerOnlyEnv()` throws at runtime when
@@ -34,10 +36,16 @@ const publicEnvVars: EnvVar[] = [
 		description: "Public API base URL for client-side requests",
 	},
 	{
+		name: "NEXT_PUBLIC_STELLVEX_API_URL",
+		required: false,
+		defaultValue: "https://api.stellvexprotocol.com",
+		description: "Newer alias for the API base URL",
+	},
+	{
 		name: "NEXT_PUBLIC_MUX_API_URL",
 		required: false,
-		defaultValue: "https://api.muxprotocol.com",
-		description: "Legacy alias for the API base URL",
+		description:
+			"Deprecated legacy alias for the API base URL — use NEXT_PUBLIC_STELLVEX_API_URL or NEXT_PUBLIC_API_URL instead",
 	},
 	{
 		name: "NEXT_PUBLIC_API_BASE",
@@ -54,20 +62,35 @@ const serverEnvVars: EnvVar[] = [
 			"HMAC secret used to sign/verify the session JWT in middleware. No default: when unset, protected routes fail closed in production builds (see src/middleware.ts).",
 	},
 	{
+		name: "STELLVEX_API_KEY",
+		required: false,
+		description: "Stellvex Protocol API key for server-side requests",
+	},
+	{
 		name: "MUX_API_KEY",
 		required: false,
-		description: "Mux Protocol API key for server-side requests",
+		description: "Deprecated legacy alias — use STELLVEX_API_KEY instead",
+	},
+	{
+		name: "STELLVEX_BACKEND_URL",
+		required: false,
+		description:
+			"Server-only base URL of stellvex-backend, used by /api/spending-limits to proxy GET/PUT. No default: when unset the route returns 503 instead of fabricating usage data (see src/lib/api/config.ts::getBackendApiBaseUrl()).",
 	},
 	{
 		name: "MUX_BACKEND_URL",
 		required: false,
-		description:
-			"Server-only base URL of mux-backend, used by /api/spending-limits to proxy GET/PUT. No default: when unset the route returns 503 instead of fabricating usage data (see src/lib/api/config.ts::getBackendApiBaseUrl()).",
+		description: "Deprecated legacy alias — use STELLVEX_BACKEND_URL instead",
+	},
+	{
+		name: "STELLVEX_API_SECRET",
+		required: false,
+		description: "Stellvex Protocol API secret for server-side requests",
 	},
 	{
 		name: "MUX_API_SECRET",
 		required: false,
-		description: "Mux Protocol API secret for server-side requests",
+		description: "Deprecated legacy alias — use STELLVEX_API_SECRET instead",
 	},
 	{
 		name: "NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID",
@@ -171,7 +194,7 @@ export function validateEnv(
  * Validates environment and returns a config object with typed values.
  * Safe to call on both client and server.
  *
- * Documented defaults (e.g. NEXT_PUBLIC_MUX_API_URL) are merged in only for
+ * Documented defaults (e.g. NEXT_PUBLIC_STELLVEX_API_URL) are merged in only for
  * NODE_ENV=production, so a deployed build never silently falls back to
  * mock data just because an operator forgot to set a var. Local dev/test
  * keep the current opt-in behavior (unset = mock fallback in API routes).
@@ -204,9 +227,7 @@ export function getEnv(): Record<string, string | undefined> {
  * @param name - The server-only variable name to read.
  * @returns The variable value, or `undefined` when unset.
  */
-export function getServerOnlyEnv(
-	name: string,
-): string | undefined {
+export function getServerOnlyEnv(name: string): string | undefined {
 	assertServerSide(name);
 	return getEnv()[name];
 }

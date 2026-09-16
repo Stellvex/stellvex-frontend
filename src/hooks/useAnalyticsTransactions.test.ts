@@ -86,7 +86,7 @@ describe("useAnalyticsTransactions", () => {
 			},
 		]);
 
-		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.muxprotocol.com");
+		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.stellvexprotocol.com");
 
 		const { result } = renderHook(() => useAnalyticsTransactions(RANGE));
 
@@ -105,7 +105,7 @@ describe("useAnalyticsTransactions", () => {
 		);
 		vi.mocked(fetchExportTransactions).mockResolvedValue([]);
 
-		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.muxprotocol.com");
+		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.stellvexprotocol.com");
 
 		const { result } = renderHook(() => useAnalyticsTransactions(RANGE));
 
@@ -121,7 +121,7 @@ describe("useAnalyticsTransactions", () => {
 		);
 		vi.mocked(fetchExportTransactions).mockResolvedValue([]);
 
-		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.muxprotocol.com");
+		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.stellvexprotocol.com");
 
 		const { result, rerender } = renderHook(
 			({ range }) => useAnalyticsTransactions(range),
@@ -151,7 +151,7 @@ describe("useAnalyticsTransactions", () => {
 		);
 		vi.mocked(fetchExportTransactions).mockRejectedValue(new Error("API down"));
 
-		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.muxprotocol.com");
+		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://api.stellvexprotocol.com");
 
 		const { result } = renderHook(() => useAnalyticsTransactions(RANGE));
 

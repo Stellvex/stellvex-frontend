@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 /**
  * Smoke coverage for the analytics dashboard export flow.
  *
- * `/dashboard/*` is protected by `mux_auth_session` (see src/middleware.ts)
+ * `/dashboard/*` is protected by `stellvex_auth_session` (see src/middleware.ts)
  * so every test signs in through the real login flow first. With
  * `NEXT_PUBLIC_API_URL` unset (the playwright dev-server env), the analytics
  * page falls back to mock data: `useAnalyticsMetrics` loads the mock
@@ -17,7 +17,7 @@ import { expect, test } from "@playwright/test";
  */
 async function signIn(page: import("@playwright/test").Page) {
 	await page.goto("/login");
-	await page.getByLabel("Email address").fill("dev@muxprotocol.com");
+	await page.getByLabel("Email address").fill("dev@stellvexprotocol.com");
 	await page.getByLabel("Password").fill("password123");
 	await page.getByTestId("login-submit").click();
 	await page.waitForURL("**/dashboard**");

@@ -20,8 +20,8 @@ vi.mock("@/mock-data/analytics", () => ({
 	topAssets: [
 		{
 			rank: 1,
-			name: "Mux Protocol",
-			symbol: "MUX",
+			name: "Stellvex Protocol",
+			symbol: "SVX",
 			volume: "$4,234,567",
 			volumeChange: 15.2,
 			tvl: "$18.2M",
@@ -110,7 +110,7 @@ describe("useAnalytics", () => {
 	});
 
 	it("cleans up and ignores stale responses when unmounted during fetch", async () => {
-		const { result, unmount } = renderHook(() => useAnalytics());
+		const { unmount } = renderHook(() => useAnalytics());
 
 		// Unmount before the async load resolves
 		unmount();

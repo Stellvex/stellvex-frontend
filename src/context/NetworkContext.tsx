@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import type { WalletNetwork } from "@/types/wallet";
 
-const STORAGE_KEY = "mux_network";
+const STORAGE_KEY = "stellvex_network";
 const VALID: WalletNetwork[] = ["mainnet", "testnet"];
 const DEFAULT: WalletNetwork = "mainnet";
 

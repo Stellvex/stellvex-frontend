@@ -10,7 +10,7 @@ import { type ActivityItem, fetchRecentActivity } from "@/lib/api";
 
 export function RecentActivityFeed() {
 	// TanStack Query (#619): the recent-activity feed is read through
-	// `useQuery`, which fetches `/api/activity` — proxied to `mux-backend`
+	// `useQuery`, which fetches `/api/activity` — proxied to `stellvex-backend`
 	// when configured, mock data otherwise.
 	const {
 		data,

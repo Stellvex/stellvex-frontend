@@ -3,7 +3,7 @@ import { CopyButton } from "./CopyButton";
 
 /**
  * CopyButton provides copy-to-clipboard functionality with visual feedback.
- * 
+ *
  * Features:
  * - Copy icon (default state)
  * - Check icon (success state, 2 seconds)
@@ -13,12 +13,12 @@ import { CopyButton } from "./CopyButton";
  * - Configurable sizes (icon-sm, sm, default)
  * - Accessibility compliant with ARIA labels
  * - Dark mode support
- * 
+ *
  * States:
  * - Default: Copy icon, ready to copy
  * - Copied: Check icon, green color
  * - Error: Alert icon, red color
- * 
+ *
  * Use cases:
  * - Copy wallet addresses
  * - Copy transaction hashes
@@ -141,7 +141,7 @@ export const CurrencyValue: Story = {
 /** Copy asset symbol */
 export const AssetSymbol: Story = {
 	args: {
-		text: "MUX",
+		text: "SVX",
 		label: "Copy asset symbol",
 		size: "icon-sm",
 		onCopySuccess: (text) => console.log("Symbol copied:", text),
@@ -171,7 +171,7 @@ export const LargeNumber: Story = {
 /** Copy email address */
 export const EmailAddress: Story = {
 	args: {
-		text: "support@muxprotocol.com",
+		text: "support@stellvexprotocol.com",
 		label: "Copy email address",
 		size: "icon-sm",
 		onCopySuccess: (text) => console.log("Email copied:", text),
@@ -181,7 +181,7 @@ export const EmailAddress: Story = {
 /** Copy URL */
 export const URL: Story = {
 	args: {
-		text: "https://muxprotocol.com/analytics/dashboard",
+		text: "https://stellvexprotocol.com/analytics/dashboard",
 		label: "Copy URL",
 		size: "icon-sm",
 		onCopySuccess: (text) => console.log("URL copied:", text),
@@ -193,7 +193,7 @@ export const JSONData: Story = {
 	args: {
 		text: JSON.stringify(
 			{
-				asset: "MUX",
+				asset: "SVX",
 				volume: "$4,234,567",
 				change: 15.2,
 			},

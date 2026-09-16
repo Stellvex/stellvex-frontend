@@ -14,7 +14,7 @@ import { SESSION_TOKEN_COOKIE } from "@/lib/auth/routeAccess";
  *  - A backend is configured (`NEXT_PUBLIC_API_URL` / legacy aliases): the
  *    request is proxied to `{backend}/auth/login`. On success the opaque
  *    session token from the backend response is written to the HttpOnly,
- *    `SameSite=Lax`, `Secure` (in production) `mux_auth_token` cookie — see
+ *    `SameSite=Lax`, `Secure` (in production) `stellvex_auth_token` cookie — see
  *    `setSessionCookie()`. No token ever reaches client JS or `localStorage`.
  *  - No backend + non-production build: a mock user is returned so `pnpm dev`
  *    and CI work without a live API. The response also carries a mock

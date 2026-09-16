@@ -142,7 +142,7 @@ describe("/api/spending-limits", () => {
 		);
 	});
 
-	it("forwards the caller authorization to mux-backend", async () => {
+	it("forwards the caller authorization to stellvex-backend", async () => {
 		vi.mocked(fetch).mockResolvedValue(
 			new Response(JSON.stringify({ limits: {}, todayUsage: 0 }), {
 				status: 200,

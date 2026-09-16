@@ -4,7 +4,11 @@ import SettingsPage from "./page";
 
 vi.mock("@/context/AuthContext", () => ({
 	useAuth: () => ({
-		user: { name: "Mux Developer", email: "dev@example.com", role: "developer" },
+		user: {
+			name: "Stellvex Developer",
+			email: "dev@example.com",
+			role: "developer",
+		},
 		isLoading: false,
 	}),
 }));
@@ -19,7 +23,7 @@ vi.mock("@/lib/session", () => ({
 
 const defaultGetResponse = {
 	settings: {
-		displayName: "Mux Developer",
+		displayName: "Stellvex Developer",
 		emailUpdates: true,
 		compactWallets: false,
 	},
@@ -44,7 +48,11 @@ function mockFetch(options?: {
 				status: 200,
 				json: async () =>
 					options?.patchPayload ?? {
-						settings: { displayName: "Stellar Builder", emailUpdates: true, compactWallets: false },
+						settings: {
+							displayName: "Stellar Builder",
+							emailUpdates: true,
+							compactWallets: false,
+						},
 					},
 			});
 		}
@@ -152,7 +160,7 @@ describe("SettingsPage — #709", () => {
 		await waitFor(() => expect(screen.getByText("Saved")).toBeInTheDocument());
 
 		// localStorage must not be touched at all
-		expect(localStorage.getItem("mux_profile_preferences")).toBeNull();
+		expect(localStorage.getItem("stellvex_profile_preferences")).toBeNull();
 	});
 
 	it("shows an error message when save fails", async () => {

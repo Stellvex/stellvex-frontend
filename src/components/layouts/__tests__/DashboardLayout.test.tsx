@@ -93,7 +93,7 @@ describe("DashboardLayout — auth loading skeleton (issue #44)", () => {
 			user: { name: "Test User", email: "test@example.com", role: "admin" },
 			expiresAt: Date.now() + 60_000,
 		};
-		sessionStorage.setItem("mux_auth_user", JSON.stringify(record));
+		sessionStorage.setItem("stellvex_auth_user", JSON.stringify(record));
 		const { findByTestId } = renderLayout();
 		const content = await findByTestId("page-content");
 		expect(content).toBeInTheDocument();
@@ -111,7 +111,7 @@ describe("DashboardLayout — responsive shell (#470)", () => {
 			user: { name: "Dev User", email: "dev@example.com", role: "developer" },
 			expiresAt: Date.now() + 60_000,
 		};
-		sessionStorage.setItem("mux_auth_user", JSON.stringify(record));
+		sessionStorage.setItem("stellvex_auth_user", JSON.stringify(record));
 		renderLayout();
 		// Wait for auth to resolve
 		await screen.findByTestId("page-content");

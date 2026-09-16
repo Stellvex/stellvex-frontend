@@ -5,7 +5,7 @@
  * when no backend URL (`NEXT_PUBLIC_API_URL`/legacy aliases) is configured,
  * so local dev/CI keeps working without a running API server. In any
  * environment with a backend configured, create/revoke/list are served by
- * the real mux-backend API instead.
+ * the real stellvex-backend API instead.
  */
 import type { ApiKey, CreatedApiKey } from "@/types/apiKey";
 
@@ -78,7 +78,7 @@ function generateSecret() {
 		{ length: 32 },
 		() => alphabet[Math.floor(Math.random() * alphabet.length)],
 	).join("");
-	return `mux_sk_${randomPart}`;
+	return `stellvex_sk_${randomPart}`;
 }
 
 export function maskApiKey(secret: string) {

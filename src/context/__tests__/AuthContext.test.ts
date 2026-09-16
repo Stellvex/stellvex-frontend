@@ -116,7 +116,7 @@ describe("AuthContext — session lifecycle (issue #46)", () => {
 		expect(record.expiresAt).toBeGreaterThan(Date.now());
 	});
 
-	it("signIn sets the mux_auth_session cookie", async () => {
+	it("signIn sets the stellvex_auth_session cookie", async () => {
 		const { result } = renderHook(() => useAuth(), { wrapper });
 		await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -174,7 +174,7 @@ describe("AuthContext — session lifecycle (issue #46)", () => {
 		expect(() => renderHook(() => useAuth())).toThrow(/AuthProvider/);
 	});
 
-	it("signOut clears the mux_auth_session cookie", async () => {
+	it("signOut clears the stellvex_auth_session cookie", async () => {
 		const record = {
 			user: { name: "Jane", email: "jane@example.com", role: "admin" },
 			expiresAt: Date.now() + 60_000,

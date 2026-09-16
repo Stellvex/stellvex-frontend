@@ -14,7 +14,7 @@ let spendingLimitsStore: SpendingLimitsData = {
 /**
  * Demo-only usage figure, derived from the mock transaction store so it
  * reflects actual (fake) activity instead of a fixed constant. The real
- * dashboard gets `todayUsage` from mux-backend via `/api/spending-limits`.
+ * dashboard gets `todayUsage` from stellvex-backend via `/api/spending-limits`.
  */
 function demoTodayUsage(): number {
 	return computeTodayUsage(mockTransactions);

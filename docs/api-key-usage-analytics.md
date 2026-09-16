@@ -24,11 +24,12 @@ Implements the "Per-key usage analytics" roadmap item from `README.md`.
 ## Data source
 
 Same rule as the rest of the app: when `NEXT_PUBLIC_API_URL` (or a legacy
-alias) is set, usage data comes from the real mux-backend
+alias) is set, usage data comes from the real stellvex-backend
 (`GET {backend}/api-keys/:id/usage`) via server-side credentials
-(`MUX_API_KEY`/`MUX_API_SECRET`, attached server-side only — never exposed
-to the browser). No client-visible Mux credential is introduced by this
-feature, and no data is written to `localStorage`.
+(`STELLVEX_API_KEY`/`STELLVEX_API_SECRET`, or their deprecated
+`MUX_API_KEY`/`MUX_API_SECRET` aliases, attached server-side only — never
+exposed to the browser). No client-visible Stellvex credential is
+introduced by this feature, and no data is written to `localStorage`.
 
 ## Backend contract expected
 

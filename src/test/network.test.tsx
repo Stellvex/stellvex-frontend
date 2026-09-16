@@ -60,11 +60,11 @@ describe("NetworkContext", () => {
 
 describe("NetworkContext — localStorage persistence", () => {
 	beforeEach(() => {
-		localStorage.removeItem("mux_network");
+		localStorage.removeItem("stellvex_network");
 	});
 
 	afterEach(() => {
-		localStorage.removeItem("mux_network");
+		localStorage.removeItem("stellvex_network");
 	});
 
 	it("persists the selected network to localStorage", () => {
@@ -74,7 +74,7 @@ describe("NetworkContext — localStorage persistence", () => {
 			</NetworkProvider>,
 		);
 		fireEvent.click(screen.getByText("Switch Testnet"));
-		expect(localStorage.getItem("mux_network")).toBe("testnet");
+		expect(localStorage.getItem("stellvex_network")).toBe("testnet");
 	});
 
 	it("restores the persisted network after a remount (e.g. page reload)", () => {
@@ -96,7 +96,7 @@ describe("NetworkContext — localStorage persistence", () => {
 	});
 
 	it("falls back to the default network when localStorage holds an invalid value", () => {
-		localStorage.setItem("mux_network", "not-a-real-network");
+		localStorage.setItem("stellvex_network", "not-a-real-network");
 		render(
 			<NetworkProvider>
 				<NetworkDisplay />

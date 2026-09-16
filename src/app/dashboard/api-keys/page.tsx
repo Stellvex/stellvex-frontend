@@ -6,7 +6,7 @@ export default function ApiKeysPage() {
 		<div className="space-y-8">
 			<PageHeader
 				title="API Keys"
-				description="Manage API keys and developer access for your Mux account."
+				description="Manage API keys and developer access for your Stellvex account."
 			/>
 
 			<div className="grid gap-8">

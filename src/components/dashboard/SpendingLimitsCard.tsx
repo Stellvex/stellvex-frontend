@@ -511,7 +511,7 @@ export function SpendingLimitsCard({
 							</p>
 						) : (
 							<p className="text-xs leading-relaxed text-zinc-500 dark:text-zinc-400">
-								Changes are saved to your Mux account through the
+								Changes are saved to your Stellvex account through the
 								spending-limits API.
 							</p>
 						)}

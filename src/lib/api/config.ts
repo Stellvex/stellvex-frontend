@@ -3,13 +3,16 @@
  *
  * ## API base URL resolution (#693)
  *
- * Three environment variables map to the same concept — the public Mux
+ * Four environment variables map to the same concept — the public Stellvex
  * backend base URL — for historical reasons.  The resolution order is:
  *
- *   1. `NEXT_PUBLIC_API_URL`      — canonical name; set this in new deploys.
- *   2. `NEXT_PUBLIC_MUX_API_URL`  — legacy alias; kept for backward compat.
- *   3. `NEXT_PUBLIC_API_BASE`     — third fallback; also legacy.
- *   4. `""`                       — empty string signals "no backend configured".
+ *   1. `NEXT_PUBLIC_API_URL`          — canonical name; set this in new deploys.
+ *   2. `NEXT_PUBLIC_STELLVEX_API_URL` — newer alias; still checked before the
+ *      pre-rebrand name below.
+ *   3. `NEXT_PUBLIC_MUX_API_URL`      — legacy alias (pre-rebrand name); kept
+ *      for backward compat.
+ *   4. `NEXT_PUBLIC_API_BASE`         — oldest fallback; also legacy.
+ *   5. `""`                           — empty string signals "no backend configured".
  *
  * Only the *first non-empty* value wins.  An empty string (e.g. `NEXT_PUBLIC_API_URL=`)
  * is treated as unset and the chain continues to the next alias, so mis-set
@@ -17,13 +20,14 @@
  * legacy alias instead of silently hitting no backend.
  *
  * In production (`NODE_ENV=production`) `getEnv()` applies documented
- * defaults (e.g. `NEXT_PUBLIC_MUX_API_URL → https://api.muxprotocol.com`)
+ * defaults (e.g. `NEXT_PUBLIC_STELLVEX_API_URL → https://api.stellvexprotocol.com`)
  * for any var that is completely absent from the process environment, so a
  * forgotten env var in production resolves to the real backend rather than
  * returning an empty string and serving mock data (see `src/lib/env.ts`).
  *
- * `getBackendApiBaseUrl()` reads a *different* var (`MUX_BACKEND_URL`) that
- * is server-only — never inlined into the browser bundle — and has no public
+ * `getBackendApiBaseUrl()` reads a *different* var (`STELLVEX_BACKEND_URL`,
+ * falling back to the deprecated `MUX_BACKEND_URL`) that is server-only —
+ * never inlined into the browser bundle — and has no public
  * fallback chain.  Callers that receive `""` must respond `503` rather than
  * falling back to fabricated data.
  */
@@ -36,6 +40,7 @@ import { getEnv } from "@/lib/env";
  */
 export const API_URL_CANDIDATES = [
 	"NEXT_PUBLIC_API_URL",
+	"NEXT_PUBLIC_STELLVEX_API_URL",
 	"NEXT_PUBLIC_MUX_API_URL",
 	"NEXT_PUBLIC_API_BASE",
 ] as const;
@@ -43,7 +48,7 @@ export const API_URL_CANDIDATES = [
 export type ApiUrlCandidate = (typeof API_URL_CANDIDATES)[number];
 
 /**
- * Resolves the public Mux backend base URL by walking the alias chain
+ * Resolves the public Stellvex backend base URL by walking the alias chain
  * {@link API_URL_CANDIDATES} and returning the first non-empty value.
  *
  * Trailing slashes are normalised so callers can always append a path
@@ -86,12 +91,13 @@ export function getActiveApiUrlVar(): ApiUrlCandidate | null {
 }
 
 /**
- * Server-only Mux Protocol credentials. These must never be read from a
- * NEXT_PUBLIC_* var or passed into a client component — see MUX_API_KEY /
- * MUX_API_SECRET in src/lib/env.ts.
+ * Server-only Stellvex Protocol credentials. These must never be read from a
+ * NEXT_PUBLIC_* var or passed into a client component — see STELLVEX_API_KEY /
+ * STELLVEX_API_SECRET (and their deprecated MUX_API_KEY / MUX_API_SECRET
+ * aliases) in src/lib/env.ts.
  */
 export function getApiKey(): string | undefined {
-	return getEnv().MUX_API_KEY;
+	return getEnv().STELLVEX_API_KEY ?? getEnv().MUX_API_KEY;
 }
 
 /** @deprecated Use {@link getApiKey} instead. */
@@ -100,10 +106,10 @@ export function getServerApiKey(): string | undefined {
 }
 
 export function getApiSecret(): string | undefined {
-	return getEnv().MUX_API_SECRET;
+	return getEnv().STELLVEX_API_SECRET ?? getEnv().MUX_API_SECRET;
 }
 
-/** Auth headers for server-side requests to the upstream Mux backend. */
+/** Auth headers for server-side requests to the upstream Stellvex backend. */
 export function getUpstreamAuthHeaders(): Record<string, string> {
 	const apiKey = getApiKey();
 	const apiSecret = getApiSecret();
@@ -118,7 +124,7 @@ export function getUpstreamAuthHeaders(): Record<string, string> {
  * to their in-repo mock implementation when no backend URL is configured.
  *
  * The mock fallback exists purely so `pnpm run dev`, CI, and the `/demo`
- * routes work without a live `mux-backend`. It must never activate in a
+ * routes work without a live `stellvex-backend`. It must never activate in a
  * real production deployment: it serves fabricated wallet/analytics data
  * and accepts hardcoded bearer tokens (`mock-access-token`,
  * `mock-refresh-token`), which would amount to an authentication bypass if
@@ -131,15 +137,20 @@ export function isMockFallbackAllowed(): boolean {
 }
 
 /**
- * Server-only base URL for the `mux-backend` service that owns persistent
+ * Server-only base URL for the `stellvex-backend` service that owns persistent
  * account state (spending limits, real usage counters).
  *
- * Unlike {@link getApiBaseUrl}, this is read from `MUX_BACKEND_URL` — a
- * server-only var, never inlined into the browser bundle — so it can point
- * at an internal backend host. Returns `""` when unset; callers
- * (`/api/spending-limits`) must treat that as "backend not configured" and
- * respond `503` rather than falling back to fabricated data.
+ * Unlike {@link getApiBaseUrl}, this is read from `STELLVEX_BACKEND_URL` (or
+ * its deprecated `MUX_BACKEND_URL` alias) — a server-only var, never inlined
+ * into the browser bundle — so it can point at an internal backend host.
+ * Returns `""` when unset; callers (`/api/spending-limits`) must treat that
+ * as "backend not configured" and respond `503` rather than falling back to
+ * fabricated data.
  */
 export function getBackendApiBaseUrl(): string {
-	return (getEnv().MUX_BACKEND_URL ?? "").replace(/\/+$/, "");
+	return (
+		getEnv().STELLVEX_BACKEND_URL ??
+		getEnv().MUX_BACKEND_URL ??
+		""
+	).replace(/\/+$/, "");
 }

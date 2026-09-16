@@ -14,12 +14,12 @@ vi.mock("@/lib/api/config", () => ({
 }));
 
 vi.mock("@/lib/auth/routeAccess", () => ({
-	SESSION_TOKEN_COOKIE: "mux_auth_token",
+	SESSION_TOKEN_COOKIE: "stellvex_auth_token",
 }));
 
+import { POST } from "@/app/api/auth/login/route";
 // Import AFTER mocks
 import { getApiBaseUrl, isMockFallbackAllowed } from "@/lib/api/config";
-import { POST } from "@/app/api/auth/login/route";
 
 function makeRequest(body: unknown) {
 	return new Request("http://localhost/api/auth/login", {
@@ -36,7 +36,9 @@ describe("/api/auth/login — #712 session block", () => {
 	});
 
 	it("returns a session block in the mock fallback response", async () => {
-		const res = await POST(makeRequest({ email: "dev@example.com", password: "password123" }));
+		const res = await POST(
+			makeRequest({ email: "dev@example.com", password: "password123" }),
+		);
 		expect(res.status).toBe(200);
 		const body = await res.json();
 		expect(body.session).toBeDefined();
@@ -45,7 +47,9 @@ describe("/api/auth/login — #712 session block", () => {
 	});
 
 	it("includes user in the mock fallback response alongside session", async () => {
-		const res = await POST(makeRequest({ email: "alice@example.com", password: "pass123" }));
+		const res = await POST(
+			makeRequest({ email: "alice@example.com", password: "pass123" }),
+		);
 		const body = await res.json();
 		expect(body.user).toBeDefined();
 		expect(body.user.email).toBe("alice@example.com");
@@ -54,7 +58,9 @@ describe("/api/auth/login — #712 session block", () => {
 
 	it("returns 503 when no backend and production mode", async () => {
 		vi.mocked(isMockFallbackAllowed).mockReturnValue(false);
-		const res = await POST(makeRequest({ email: "dev@example.com", password: "pass" }));
+		const res = await POST(
+			makeRequest({ email: "dev@example.com", password: "pass" }),
+		);
 		expect(res.status).toBe(503);
 		const body = await res.json();
 		expect(body.error).toBe("backend_unavailable");
@@ -83,7 +89,9 @@ describe("/api/auth/login — #712 session block", () => {
 		});
 		vi.stubGlobal("fetch", mockFetch);
 
-		const res = await POST(makeRequest({ email: "dev@example.com", password: "realpass" }));
+		const res = await POST(
+			makeRequest({ email: "dev@example.com", password: "realpass" }),
+		);
 		expect(res.status).toBe(200);
 		const body = await res.json();
 		// Session block should be synthesised from the backend's accessToken

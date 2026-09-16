@@ -28,9 +28,7 @@ test.describe("Login smoke", () => {
 		await email.blur();
 
 		await expect(page.getByTestId("email-error")).toBeVisible();
-		await expect(page.getByTestId("email-error")).toContainText(
-			"valid email",
-		);
+		await expect(page.getByTestId("email-error")).toContainText("valid email");
 	});
 
 	test("surfaces inline validation errors for a short password", async ({
@@ -55,7 +53,7 @@ test.describe("Login smoke", () => {
 	test("signs in successfully and redirects to the dashboard", async ({
 		page,
 	}) => {
-		await page.getByLabel("Email address").fill("dev@muxprotocol.com");
+		await page.getByLabel("Email address").fill("dev@stellvexprotocol.com");
 		await page.getByLabel("Password").fill("password123");
 		await page.getByTestId("login-submit").click();
 
@@ -73,7 +71,7 @@ test.describe("Login smoke", () => {
 			}),
 		);
 
-		await page.getByLabel("Email address").fill("dev@muxprotocol.com");
+		await page.getByLabel("Email address").fill("dev@stellvexprotocol.com");
 		await page.getByLabel("Password").fill("wrongpassword");
 		await page.getByTestId("login-submit").click();
 

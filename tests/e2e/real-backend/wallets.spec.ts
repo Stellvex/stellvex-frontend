@@ -1,8 +1,8 @@
 import { expect, type Page, test } from "@playwright/test";
-import { readRealBackendEnv, REAL_BACKEND_SKIP_REASON } from "./helpers";
+import { REAL_BACKEND_SKIP_REASON, readRealBackendEnv } from "./helpers";
 
 /**
- * Contract coverage for GET /api/wallets against a REAL mux-backend.
+ * Contract coverage for GET /api/wallets against a REAL stellvex-backend.
  *
  * tests/e2e/wallets.spec.ts signs in through the mock login and every data
  * state after that is either a `page.route("**\/api/wallets", ...)` stub
@@ -29,7 +29,7 @@ async function signInRealBackend(page: Page) {
 	await page.waitForURL("**/dashboard**");
 }
 
-test.describe("Wallets dashboard against a real mux-backend", () => {
+test.describe("Wallets dashboard against a real stellvex-backend", () => {
 	test.skip(!realBackend, REAL_BACKEND_SKIP_REASON);
 
 	test("loads without the mock-only 'Failed to load wallets' error state", async ({

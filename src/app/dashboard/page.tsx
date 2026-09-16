@@ -7,7 +7,7 @@ export default function DashboardPage() {
 		<div className="space-y-6">
 			<PageHeader
 				title="Dashboard"
-				description="Welcome to your Mux Protocol developer console."
+				description="Welcome to your Stellvex Protocol developer console."
 			/>
 			<DashboardOverview />
 			<RecentActivityFeed />

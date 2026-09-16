@@ -24,9 +24,26 @@ describe("getApiBaseUrl", () => {
 		expect(getApiBaseUrl()).toBe("https://api.example.com");
 	});
 
-	it("falls back to NEXT_PUBLIC_MUX_API_URL when API_URL is missing", () => {
+	it("falls back to NEXT_PUBLIC_STELLVEX_API_URL when API_URL is missing", () => {
+		vi.stubEnv(
+			"NEXT_PUBLIC_STELLVEX_API_URL",
+			"https://stellvex-api.example.com",
+		);
+		expect(getApiBaseUrl()).toBe("https://stellvex-api.example.com");
+	});
+
+	it("falls back to NEXT_PUBLIC_MUX_API_URL when API_URL and STELLVEX_API_URL are missing", () => {
 		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://legacy-api.example.com");
 		expect(getApiBaseUrl()).toBe("https://legacy-api.example.com");
+	});
+
+	it("prefers NEXT_PUBLIC_STELLVEX_API_URL over the legacy NEXT_PUBLIC_MUX_API_URL", () => {
+		vi.stubEnv(
+			"NEXT_PUBLIC_STELLVEX_API_URL",
+			"https://stellvex-api.example.com",
+		);
+		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://legacy-api.example.com");
+		expect(getApiBaseUrl()).toBe("https://stellvex-api.example.com");
 	});
 
 	it("falls back to NEXT_PUBLIC_API_BASE when newer names are missing", () => {
@@ -45,7 +62,7 @@ describe("getApiBaseUrl", () => {
 
 	// --- #693: empty-string alias skipping ---
 
-	it("skips NEXT_PUBLIC_API_URL when set to an empty string and falls back to MUX_API_URL", () => {
+	it("skips NEXT_PUBLIC_API_URL when set to an empty string and falls back to the legacy NEXT_PUBLIC_MUX_API_URL", () => {
 		vi.stubEnv("NEXT_PUBLIC_API_URL", "");
 		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://legacy.example.com");
 		expect(getApiBaseUrl()).toBe("https://legacy.example.com");
@@ -64,9 +81,18 @@ describe("getApiBaseUrl", () => {
 		expect(getApiBaseUrl()).toBe("");
 	});
 
-	it("NEXT_PUBLIC_API_URL takes priority over MUX_API_URL when both are set", () => {
+	it("NEXT_PUBLIC_API_URL takes priority over the legacy NEXT_PUBLIC_MUX_API_URL when both are set", () => {
 		vi.stubEnv("NEXT_PUBLIC_API_URL", "https://primary.example.com");
 		vi.stubEnv("NEXT_PUBLIC_MUX_API_URL", "https://legacy.example.com");
+		expect(getApiBaseUrl()).toBe("https://primary.example.com");
+	});
+
+	it("NEXT_PUBLIC_API_URL takes priority over NEXT_PUBLIC_STELLVEX_API_URL when both are set", () => {
+		vi.stubEnv("NEXT_PUBLIC_API_URL", "https://primary.example.com");
+		vi.stubEnv(
+			"NEXT_PUBLIC_STELLVEX_API_URL",
+			"https://stellvex-api.example.com",
+		);
 		expect(getApiBaseUrl()).toBe("https://primary.example.com");
 	});
 });
@@ -83,6 +109,14 @@ describe("getActiveApiUrlVar (#693)", () => {
 	it("returns NEXT_PUBLIC_API_URL when it is the active alias", () => {
 		vi.stubEnv("NEXT_PUBLIC_API_URL", "https://api.example.com");
 		expect(getActiveApiUrlVar()).toBe("NEXT_PUBLIC_API_URL");
+	});
+
+	it("returns NEXT_PUBLIC_STELLVEX_API_URL when that is the active alias", () => {
+		vi.stubEnv(
+			"NEXT_PUBLIC_STELLVEX_API_URL",
+			"https://stellvex-api.example.com",
+		);
+		expect(getActiveApiUrlVar()).toBe("NEXT_PUBLIC_STELLVEX_API_URL");
 	});
 
 	it("returns NEXT_PUBLIC_MUX_API_URL when that is the active alias", () => {
@@ -107,9 +141,10 @@ describe("getActiveApiUrlVar (#693)", () => {
 });
 
 describe("API_URL_CANDIDATES constant (#693)", () => {
-	it("lists the three aliases in priority order", () => {
+	it("lists the four aliases in priority order", () => {
 		expect(API_URL_CANDIDATES).toEqual([
 			"NEXT_PUBLIC_API_URL",
+			"NEXT_PUBLIC_STELLVEX_API_URL",
 			"NEXT_PUBLIC_MUX_API_URL",
 			"NEXT_PUBLIC_API_BASE",
 		]);
@@ -131,9 +166,20 @@ describe("getBackendApiBaseUrl", () => {
 		vi.unstubAllEnvs();
 	});
 
-	it("reads the server-only MUX_BACKEND_URL", () => {
+	it("reads the server-only STELLVEX_BACKEND_URL", () => {
+		vi.stubEnv("STELLVEX_BACKEND_URL", "https://stellvex-backend.internal");
+		expect(getBackendApiBaseUrl()).toBe("https://stellvex-backend.internal");
+	});
+
+	it("falls back to the deprecated MUX_BACKEND_URL when STELLVEX_BACKEND_URL is unset", () => {
 		vi.stubEnv("MUX_BACKEND_URL", "https://backend.internal");
 		expect(getBackendApiBaseUrl()).toBe("https://backend.internal");
+	});
+
+	it("prefers STELLVEX_BACKEND_URL over the deprecated MUX_BACKEND_URL", () => {
+		vi.stubEnv("STELLVEX_BACKEND_URL", "https://stellvex-backend.internal");
+		vi.stubEnv("MUX_BACKEND_URL", "https://legacy-backend.internal");
+		expect(getBackendApiBaseUrl()).toBe("https://stellvex-backend.internal");
 	});
 
 	it("normalizes trailing slashes", () => {
@@ -160,12 +206,23 @@ describe("getApiKey / getApiSecret", () => {
 		vi.unstubAllEnvs();
 	});
 
-	it("reads the server-only MUX_API_KEY, never the public NEXT_PUBLIC_MUX_API_KEY", () => {
+	it("reads the server-only STELLVEX_API_KEY, never the public NEXT_PUBLIC_MUX_API_KEY", () => {
 		// A regression guard for #636: the project API key must never be
 		// sourced from a NEXT_PUBLIC_* var, since that ships to every browser.
 		vi.stubEnv("NEXT_PUBLIC_MUX_API_KEY", "leaked-public-key");
+		vi.stubEnv("STELLVEX_API_KEY", "server-secret-key");
+		expect(getApiKey()).toBe("server-secret-key");
+	});
+
+	it("falls back to the deprecated MUX_API_KEY when STELLVEX_API_KEY is unset", () => {
 		vi.stubEnv("MUX_API_KEY", "server-secret-key");
 		expect(getApiKey()).toBe("server-secret-key");
+	});
+
+	it("prefers STELLVEX_API_KEY over the deprecated MUX_API_KEY", () => {
+		vi.stubEnv("STELLVEX_API_KEY", "new-key");
+		vi.stubEnv("MUX_API_KEY", "old-key");
+		expect(getApiKey()).toBe("new-key");
 	});
 
 	it("returns undefined when only the public-looking var is set", () => {
@@ -173,9 +230,20 @@ describe("getApiKey / getApiSecret", () => {
 		expect(getApiKey()).toBeUndefined();
 	});
 
-	it("reads MUX_API_SECRET", () => {
+	it("reads STELLVEX_API_SECRET", () => {
+		vi.stubEnv("STELLVEX_API_SECRET", "server-secret-value");
+		expect(getApiSecret()).toBe("server-secret-value");
+	});
+
+	it("falls back to the deprecated MUX_API_SECRET when STELLVEX_API_SECRET is unset", () => {
 		vi.stubEnv("MUX_API_SECRET", "server-secret-value");
 		expect(getApiSecret()).toBe("server-secret-value");
+	});
+
+	it("prefers STELLVEX_API_SECRET over the deprecated MUX_API_SECRET", () => {
+		vi.stubEnv("STELLVEX_API_SECRET", "new-secret");
+		vi.stubEnv("MUX_API_SECRET", "old-secret");
+		expect(getApiSecret()).toBe("new-secret");
 	});
 
 	it("getServerApiKey is an alias for getApiKey (backward compat)", () => {
@@ -196,6 +264,15 @@ describe("getUpstreamAuthHeaders", () => {
 	it("sends both x-api-key and x-api-secret when configured", () => {
 		vi.stubEnv("MUX_API_KEY", "key-123");
 		vi.stubEnv("MUX_API_SECRET", "secret-456");
+		expect(getUpstreamAuthHeaders()).toEqual({
+			"x-api-key": "key-123",
+			"x-api-secret": "secret-456",
+		});
+	});
+
+	it("sends both headers when configured via the new STELLVEX_* names", () => {
+		vi.stubEnv("STELLVEX_API_KEY", "key-123");
+		vi.stubEnv("STELLVEX_API_SECRET", "secret-456");
 		expect(getUpstreamAuthHeaders()).toEqual({
 			"x-api-key": "key-123",
 			"x-api-secret": "secret-456",

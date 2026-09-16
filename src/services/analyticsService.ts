@@ -1,7 +1,7 @@
 /**
  * Analytics API service.
  *
- * Wraps the Mux Protocol backend endpoints for analytics data.
+ * Wraps the Stellvex Protocol backend endpoints for analytics data.
  * Falls back to mock data when the API base URL is not configured or when
  * running in a non-production environment without a real backend.
  *

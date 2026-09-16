@@ -23,8 +23,8 @@ import {
 } from "@/lib/session";
 
 /** Cookie / sessionStorage key — must match AuthContext constants. */
-const SESSION_COOKIE_NAME = "mux_auth_session";
-const SESSION_STORAGE_KEY = "mux_auth_user";
+const SESSION_COOKIE_NAME = "stellvex_auth_session";
+const SESSION_STORAGE_KEY = "stellvex_auth_user";
 
 /** The path users are sent to after a 401. */
 const LOGIN_PATH = "/login";

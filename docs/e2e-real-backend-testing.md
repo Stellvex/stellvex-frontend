@@ -9,7 +9,7 @@ vars it reads, and how it fits alongside the mock-only smoke suite.
 `tests/e2e/` (the default `pnpm run test:e2e`) is deliberately mock-only:
 `playwright.config.ts` forces `NEXT_PUBLIC_API_URL=""` in its dev-server
 env so `login.spec.ts` and `wallets.spec.ts` run the same way in every
-environment, without needing a live `mux-backend`. That's the right
+environment, without needing a live `stellvex-backend`. That's the right
 default for a fast, deterministic smoke suite — but it means those specs
 hardcode mock-only assumptions (any well-formed login credentials
 succeed; `/api/wallets` accepts the literal bearer token
@@ -34,7 +34,7 @@ at test-run time only, ideally from CI secrets.
 
 | Var | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_API_URL` | Same var the app itself reads (`src/lib/api/config.ts::getApiBaseUrl`). Must point at a real, reachable `mux-backend` (typically a testnet/staging deployment) for this suite to run. |
+| `NEXT_PUBLIC_API_URL` | Same var the app itself reads (`src/lib/api/config.ts::getApiBaseUrl`). Must point at a real, reachable `stellvex-backend` (typically a testnet/staging deployment) for this suite to run. |
 | `E2E_TEST_EMAIL` | Email for a real, low-privilege QA account on that backend. |
 | `E2E_TEST_PASSWORD` | Password for the same account. |
 | `PLAYWRIGHT_BASE_URL` (optional) | Points the suite at an already-running frontend (e.g. a deployed preview) instead of spawning a local `next dev` — same convention as the default suite. |
@@ -48,8 +48,8 @@ until those secrets are actually provisioned for a given environment.
 ## Running
 
 ```bash
-NEXT_PUBLIC_API_URL=https://staging-api.muxprotocol.com \
-E2E_TEST_EMAIL=qa@muxprotocol.com \
+NEXT_PUBLIC_API_URL=https://staging-api.stellvexprotocol.com \
+E2E_TEST_EMAIL=qa@stellvexprotocol.com \
 E2E_TEST_PASSWORD='...' \
 pnpm exec playwright test --config=playwright.real-backend.config.ts
 ```
@@ -63,8 +63,9 @@ and the full list of what each spec covers.
   backend — treat `E2E_TEST_PASSWORD` like any other secret: CI secret
   store only, never committed, never logged.
 - Same rule as the rest of the app (`docs/frontend-env-vars.md`,
-  `docs/auth-local-setup.md`): no custody secret — `MUX_API_KEY`,
-  `MUX_API_SECRET`, or a session token — is ever read from a
+  `docs/auth-local-setup.md`): no custody secret — `STELLVEX_API_KEY`,
+  `STELLVEX_API_SECRET` (or their deprecated `MUX_API_KEY`/`MUX_API_SECRET`
+  aliases), or a session token — is ever read from a
   `NEXT_PUBLIC_*` variable or written to `localStorage`. The
   real-backend specs don't introduce any new storage path; they exercise
-  the existing HttpOnly `mux_auth_token` cookie flow end-to-end.
+  the existing HttpOnly `stellvex_auth_token` cookie flow end-to-end.

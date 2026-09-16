@@ -26,7 +26,7 @@ beforeEach(() => {
 afterEach(() => {
 	clearWalletsCacheForTests();
 	clearSession();
-	window.localStorage.removeItem("mux-auth-session");
+	window.localStorage.removeItem("stellvex-auth-session");
 	vi.unstubAllEnvs();
 	vi.restoreAllMocks();
 });
@@ -200,7 +200,7 @@ describe("useWallets", () => {
 	});
 
 	// #629: the bearer session AuthContext writes on sign-in (via
-	// `createSession` → `saveSession`, key `mux-auth-session` in sessionStorage)
+	// `createSession` → `saveSession`, key `stellvex-auth-session` in sessionStorage)
 	// must be exactly what `useWallets` reads back — no second, drifting key.
 	it("sends the token AuthContext persisted on sign-in", async () => {
 		const { createSession, saveSession: persist } = await import(
@@ -232,7 +232,7 @@ describe("useWallets", () => {
 
 	it("omits the Authorization header when a token exists only under the legacy localStorage key", async () => {
 		window.localStorage.setItem(
-			"mux-auth-session",
+			"stellvex-auth-session",
 			JSON.stringify({ accessToken: "stale-localstorage-token" }),
 		);
 
@@ -246,7 +246,9 @@ describe("useWallets", () => {
 		await waitFor(() => expect(result.current.loading).toBe(false));
 
 		const [, init] = fetchMock.mock.calls[0];
-		expect((init.headers as Record<string, string>).Authorization).toBeUndefined();
+		expect(
+			(init.headers as Record<string, string>).Authorization,
+		).toBeUndefined();
 	});
 });
 

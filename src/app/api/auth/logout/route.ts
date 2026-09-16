@@ -5,7 +5,7 @@ import { SESSION_TOKEN_COOKIE } from "@/lib/auth/routeAccess";
 /**
  * POST /api/auth/logout
  *
- * Clears the HttpOnly `mux_auth_token` session cookie (#621). Client JS
+ * Clears the HttpOnly `stellvex_auth_token` session cookie (#621). Client JS
  * cannot delete an HttpOnly cookie itself, so `AuthContext.signOut()` calls
  * this route. Best-effort notifies the backend so it can revoke the session
  * server-side too.

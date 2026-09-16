@@ -23,7 +23,7 @@ interface SendDraftScreenProps {
 
 /**
  * Send-flow draft step. Captures destination/amount, then asks the backend
- * (via `/api/send/draft`, which proxies to `mux-backend`) to validate the
+ * (via `/api/send/draft`, which proxies to `stellvex-backend`) to validate the
  * draft and return a fee/arrival preview before handing off to the full
  * `SendWalletModal` validation flow.
  *

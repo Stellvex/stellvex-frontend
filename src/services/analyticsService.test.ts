@@ -114,8 +114,8 @@ describe("fetchTopAssets", () => {
 				assets: [
 					{
 						rank: 1,
-						name: "Mux Protocol",
-						symbol: "MUX",
+						name: "Stellvex Protocol",
+						symbol: "SVX",
 						volume: "$4M",
 						volumeChange: 15,
 						tvl: "$18M",
@@ -130,7 +130,7 @@ describe("fetchTopAssets", () => {
 		expect(client.get).toHaveBeenCalledWith(
 			"/analytics/top-assets?from=2024-01-01&to=2024-01-07",
 		);
-		expect(result[0].symbol).toBe("MUX");
+		expect(result[0].symbol).toBe("SVX");
 	});
 });
 
@@ -209,8 +209,8 @@ describe("fetchAllAnalytics", () => {
 					assets: [
 						{
 							rank: 1,
-							name: "MUX",
-							symbol: "MUX",
+							name: "SVX",
+							symbol: "SVX",
 							volume: "$1M",
 							volumeChange: 5,
 							tvl: "$5M",

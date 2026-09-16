@@ -41,7 +41,7 @@ export default function APIKeyModal({
 			);
 		}
 
-		const secret = `mux_live_${Math.random().toString(36).slice(2)}${Math.random()
+		const secret = `stellvex_live_${Math.random().toString(36).slice(2)}${Math.random()
 			.toString(36)
 			.slice(2)}`;
 		return {
@@ -208,8 +208,8 @@ export default function APIKeyModal({
 									className="flex items-center gap-1.5 text-sm text-amber-700 dark:text-amber-400"
 								>
 									<WifiOff className="h-4 w-4 shrink-0" aria-hidden="true" />
-									You're offline. Creating a key is paused until your
-									connection is back.
+									You're offline. Creating a key is paused until your connection
+									is back.
 								</p>
 							)}
 							{error && (

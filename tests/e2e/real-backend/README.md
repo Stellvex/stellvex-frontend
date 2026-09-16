@@ -3,7 +3,7 @@
 These specs close a gap in the primary e2e smoke suite (`tests/e2e/`):
 that suite is mock-only by design (see `playwright.config.ts` and
 `tests/e2e/README.md`) and never actually proves the app works against a
-live `mux-backend`.
+live `stellvex-backend`.
 
 ## The failure mode this closes
 
@@ -12,7 +12,7 @@ Running the existing specs against a real backend (e.g. by pointing
 forcing it to `""`) fails or gives false confidence in two ways:
 
 1. **`tests/e2e/login.spec.ts`** — the "signs in successfully" test fills
-   in `dev@muxprotocol.com` / `password123`. The mock
+   in `dev@stellvexprotocol.com` / `password123`. The mock
    `/api/auth/login` route (`src/app/api/auth/login/route.ts`) accepts
    *any* well-formed credentials in its mock-fallback branch, so this
    always passes against the mock. A real backend would reject those
@@ -53,14 +53,14 @@ against the real backend rather than a copy of the mock suite.
 
 ## Running
 
-Requires a live `mux-backend` (or staging deployment) and a real test
+Requires a live `stellvex-backend` (or staging deployment) and a real test
 account. Nothing here runs as part of the default `pnpm run test:e2e` —
 it uses its own config, `playwright.real-backend.config.ts`, at the repo
 root:
 
 ```bash
-NEXT_PUBLIC_API_URL=https://staging-api.muxprotocol.com \
-E2E_TEST_EMAIL=qa@muxprotocol.com \
+NEXT_PUBLIC_API_URL=https://staging-api.stellvexprotocol.com \
+E2E_TEST_EMAIL=qa@stellvexprotocol.com \
 E2E_TEST_PASSWORD='...' \
 pnpm exec playwright test --config=playwright.real-backend.config.ts
 ```
@@ -69,9 +69,9 @@ Or against an already-deployed preview frontend instead of a local
 `next dev`:
 
 ```bash
-PLAYWRIGHT_BASE_URL=https://staging.muxprotocol.com \
-NEXT_PUBLIC_API_URL=https://staging-api.muxprotocol.com \
-E2E_TEST_EMAIL=qa@muxprotocol.com \
+PLAYWRIGHT_BASE_URL=https://staging.stellvexprotocol.com \
+NEXT_PUBLIC_API_URL=https://staging-api.stellvexprotocol.com \
+E2E_TEST_EMAIL=qa@stellvexprotocol.com \
 E2E_TEST_PASSWORD='...' \
 pnpm exec playwright test --config=playwright.real-backend.config.ts
 ```
@@ -92,9 +92,10 @@ credentials.
   non-custodial QA account provisioned specifically for this suite —
   never a real operator's credentials — and should be injected via CI
   secrets, never committed.
-- As with the rest of the app, no custody secret (`MUX_API_KEY`,
-  `MUX_API_SECRET`, or a session token) is ever read from a
+- As with the rest of the app, no custody secret (`STELLVEX_API_KEY`,
+  `STELLVEX_API_SECRET` — or their deprecated `MUX_API_KEY`/`MUX_API_SECRET`
+  aliases — or a session token) is ever read from a
   `NEXT_PUBLIC_*` variable or written to `localStorage` by these tests or
   the app they exercise — the session lives only in the HttpOnly
-  `mux_auth_token` cookie set server-side by `/api/auth/login` (see
+  `stellvex_auth_token` cookie set server-side by `/api/auth/login` (see
   `docs/auth-local-setup.md`).

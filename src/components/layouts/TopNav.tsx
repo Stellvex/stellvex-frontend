@@ -76,7 +76,7 @@ export function TopNav({ onMenuClick }: TopNavProps) {
 	}, [network]);
 
 	useEffect(() => {
-		document.title = `${pageTitle} · ${networkLabel[optimisticNetwork]} — Mux`;
+		document.title = `${pageTitle} · ${networkLabel[optimisticNetwork]} — Stellvex`;
 	}, [pageTitle, optimisticNetwork]);
 
 	useEffect(() => {

@@ -1,7 +1,7 @@
 import { SpendingLimitsCard } from "@/components/dashboard/SpendingLimitsCard";
 import { PageHeader } from "@/components/ui/PageHeader";
 
-const BILLING_DOCS_URL = "https://docs.mux.com/billing";
+const BILLING_DOCS_URL = "https://docs.stellvexprotocol.com/billing";
 
 export default function SpendingLimitsPage() {
 	return (

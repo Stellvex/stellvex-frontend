@@ -24,7 +24,7 @@ describe("GET /api/api-keys", () => {
 			expect.objectContaining({
 				name: "Production",
 				status: "Active",
-				secret: expect.stringMatching(/^mux_sk_/),
+				secret: expect.stringMatching(/^stellvex_sk_/),
 				key: expect.stringContaining("••••"),
 			}),
 		);

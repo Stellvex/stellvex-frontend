@@ -31,8 +31,8 @@ const mockMetricsData = {
 	topAssets: [
 		{
 			rank: 1,
-			name: "Mux Protocol",
-			symbol: "MUX",
+			name: "Stellvex Protocol",
+			symbol: "SVX",
 			volume: "$4,234,567",
 			volumeChange: 15.2,
 			tvl: "$18.2M",
@@ -193,9 +193,9 @@ describe("AnalyticsPage — #453 analytics export data source", () => {
 			description: string;
 			amount: number;
 		}>;
-		// topAssets would map MUX/XLM asset names with txCount amounts — real
+		// topAssets would map SVX/XLM asset names with txCount amounts — real
 		// export rows come from transactions, so this must not be the case.
-		expect(exported.some((tx) => tx.description === "Mux Protocol")).toBe(
+		expect(exported.some((tx) => tx.description === "Stellvex Protocol")).toBe(
 			false,
 		);
 		expect(exported.some((tx) => tx.amount === 28432)).toBe(false);

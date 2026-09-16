@@ -1,7 +1,7 @@
 {
-	"name": "Mux Protocol",
-	"short_name": "Mux",
-	"description": "Mux Protocol — a modular, non-custodial DeFi platform for cross-chain liquidity, leveraged trading, and yield optimization.",
+	"name": "Stellvex Protocol",
+	"short_name": "Stellvex",
+	"description": "Stellvex Protocol — a modular, non-custodial DeFi platform for cross-chain liquidity, leveraged trading, and yield optimization.",
 	"start_url": "/",
 	"display": "standalone",
 	"background_color": "#1a1a2e",

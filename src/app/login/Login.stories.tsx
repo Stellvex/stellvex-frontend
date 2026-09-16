@@ -65,7 +65,7 @@ function LoginErrorCard({
 function LoginWelcomeHint() {
 	return (
 		<div className="rounded-lg border border-blue-100 bg-blue-50 px-4 py-3 text-sm text-blue-700">
-			<p className="font-medium">Welcome to Mux Protocol</p>
+			<p className="font-medium">Welcome to Stellvex Protocol</p>
 			<p className="mt-0.5 text-blue-600">
 				Enter your credentials to access your developer console.
 			</p>
@@ -99,7 +99,7 @@ function LoginCard({ children }: { children: React.ReactNode }) {
 						</svg>
 					</div>
 					<h1 className="text-2xl font-bold tracking-tight text-gray-900">
-						Mux Protocol
+						Stellvex Protocol
 					</h1>
 					<p className="mt-1 text-sm text-gray-500">
 						Sign in to your developer console
@@ -110,7 +110,7 @@ function LoginCard({ children }: { children: React.ReactNode }) {
 					{children}
 				</div>
 				<p className="mt-6 text-center text-xs text-gray-400">
-					Mux Protocol developer console — internal use only
+					Stellvex Protocol developer console — internal use only
 				</p>
 			</div>
 		</div>
@@ -257,7 +257,7 @@ export const Submitting: Story = {
 						id="email"
 						name="email"
 						type="email"
-						defaultValue="dev@muxprotocol.io"
+						defaultValue="dev@stellvexprotocol.io"
 						disabled
 						className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-3 py-2.5 text-sm text-gray-500 cursor-not-allowed"
 					/>

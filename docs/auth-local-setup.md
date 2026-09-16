@@ -1,6 +1,6 @@
 # Local Auth Setup
 
-> Issue #46 — Document local auth setup for Mux Protocol frontend.
+> Issue #46 — Document local auth setup for Stellvex Protocol frontend.
 
 This document describes how the client-side authentication system works in
 development, how to run the app locally with auth enabled, and how to extend
@@ -10,12 +10,12 @@ or replace the auth layer when a real backend is available.
 
 ## Overview
 
-The Mux Protocol frontend uses a **hybrid session** model:
+The Stellvex Protocol frontend uses a **hybrid session** model:
 
 | Layer | Mechanism |
 |---|---|
-| Session storage (client rehydration) | `sessionStorage` (key: `mux_auth_user`) |
-| Server-verified session (backend mode) | HttpOnly `mux_auth_token` cookie, set by `/api/auth/login` from the backend login response, verified on every protected request via `GET {backend}/auth/session` |
+| Session storage (client rehydration) | `sessionStorage` (key: `stellvex_auth_user`) |
+| Server-verified session (backend mode) | HttpOnly `stellvex_auth_token` cookie, set by `/api/auth/login` from the backend login response, verified on every protected request via `GET {backend}/auth/session` |
 | Route protection (server) | Next.js middleware — see `src/lib/auth/routeAccess.ts` |
 | Route protection (client) | `useSessionGuard` hook redirects unauthenticated users |
 | Auth state | React context (`AuthContext`) — `isLoading`, `isAuthenticated`, `user` |
@@ -23,23 +23,23 @@ The Mux Protocol frontend uses a **hybrid session** model:
 ### Backend mode vs mock mode (#621)
 
 - **Backend configured** (`NEXT_PUBLIC_API_URL` / aliases set): a protected
-  route requires the HttpOnly `mux_auth_token` cookie **and** a live
+  route requires the HttpOnly `stellvex_auth_token` cookie **and** a live
   `GET {backend}/auth/session` check confirming it is still valid. The
-  client-set `mux_auth_session` marker cookie is **not** trusted on its own —
-  this closes the "anyone can forge `mux_auth_session=1`" gap. `/api/auth/login`
+  client-set `stellvex_auth_session` marker cookie is **not** trusted on its own —
+  this closes the "anyone can forge `stellvex_auth_session=1`" gap. `/api/auth/login`
   proxies credentials to `{backend}/auth/login` and, on success, stores the
-  backend-issued token in the `mux_auth_token` cookie via a server `Set-Cookie`
+  backend-issued token in the `stellvex_auth_token` cookie via a server `Set-Cookie`
   header with `HttpOnly; SameSite=Lax; Path=/` (plus `Secure` when
   `NODE_ENV=production`) — see `setSessionCookie()` in
   `src/app/api/auth/login/route.ts` (#627). `/api/auth/refresh` proxies to
   `{backend}/auth/refresh`, forwarding the caller's `Authorization` header and
-  session cookie, and rotates `mux_auth_token` from the response (#626).
+  session cookie, and rotates `stellvex_auth_token` from the response (#626).
   `signOut()` calls `POST /api/auth/logout`, which clears the cookie and
   best-effort notifies `{backend}/auth/logout`.
 - **Mock mode** (no backend, non-production only): `/api/auth/login` accepts
   any well-formed credentials and returns a mock user **plus a `session`
   block** (`accessToken` / `refreshToken` / `expiresIn`); the middleware
-  accepts the `mux_auth_session` marker cookie so `pnpm dev` / CI work without
+  accepts the `stellvex_auth_session` marker cookie so `pnpm dev` / CI work without
   a live auth server. In a **production** build with no backend,
   `/api/auth/login` and `/api/auth/refresh` return `503 backend_unavailable`
   — there is no mock sign-in or mock refresh in production (#625).
@@ -150,14 +150,14 @@ signIn(user, undefined, { accessToken, refreshToken, expiresIn });
 What `signIn` does:
 1. Writes a `SessionRecord` (user + `expiresAt`) to `sessionStorage` (client
    UI state only).
-2. Writes a non-`HttpOnly` `mux_auth_session=1` marker cookie
+2. Writes a non-`HttpOnly` `stellvex_auth_session=1` marker cookie
    (`SameSite=Lax`, plus `; Secure` on HTTPS) — used only by the middleware's
    non-production presence-check fallback.
 3. If a token block is passed, persists it via `src/lib/session.js`
    (`sessionStorage`) so `src/lib/api.js` can authorize requests (#628).
 4. Updates `user` state in `AuthContext` → `isAuthenticated` becomes `true`.
 
-The authoritative session token — the `HttpOnly` `mux_auth_session` cookie
+The authoritative session token — the `HttpOnly` `stellvex_auth_session` cookie
 the middleware verifies in production — is set by `POST /api/auth/login`
 server-side, not by `signIn`. The browser keeps the `HttpOnly` value; the
 client-side marker write is ignored when an `HttpOnly` cookie of the same
@@ -171,17 +171,17 @@ signOut();
 ```
 
 What `signOut` does:
-1. Removes the `mux_auth_user` key from `sessionStorage`.
+1. Removes the `stellvex_auth_user` key from `sessionStorage`.
 2. Clears the client-side marker cookie (`max-age=0`).
 3. Clears the bearer-token session (`src/lib/session.js`).
 4. Fires `POST /api/auth/logout` (fire-and-forget) so the server clears the
-   `HttpOnly` `mux_auth_token` cookie — JS cannot delete it directly.
+   `HttpOnly` `stellvex_auth_token` cookie — JS cannot delete it directly.
 5. Sets `user` to `null` → `isAuthenticated` becomes `false`.
 
 ### Session rehydration
 
 On every page load, `AuthProvider` runs a `useEffect` that:
-1. Reads `mux_auth_user` from `sessionStorage`.
+1. Reads `stellvex_auth_user` from `sessionStorage`.
 2. Checks `expiresAt > Date.now()`.
 3. If valid: restores `user` state and re-syncs the cookie.
 4. If expired or corrupt: clears storage and cookie, stays unauthenticated.
@@ -200,7 +200,7 @@ On every page load, `AuthProvider` runs a `useEffect` that:
 `src/middleware.ts` delegates to `evaluateAccess()` in
 `src/lib/auth/routeAccess.ts` on every request to a protected prefix. When
 access is denied the user is redirected to `/login?callbackUrl=<original-path>`;
-a rejected `mux_auth_token` is also cleared from the browser on that redirect.
+a rejected `stellvex_auth_token` is also cleared from the browser on that redirect.
 
 ```ts
 // src/lib/auth/routeAccess.ts
@@ -273,7 +273,7 @@ To run against a real backend (which also enables server-verified sessions,
 #621), set the API base URL in `.env.local`:
 
 ```env
-# Base URL for the Mux backend API. When set, /api/auth/login proxies to
+# Base URL for the Stellvex backend API. When set, /api/auth/login proxies to
 # {NEXT_PUBLIC_API_URL}/auth/login and the middleware verifies sessions via
 # {NEXT_PUBLIC_API_URL}/auth/session on every protected request.
 NEXT_PUBLIC_API_URL=http://localhost:4000

@@ -11,7 +11,7 @@ describe("SpendingLimitsPage", () => {
 		});
 
 		expect(billingLink.getAttribute("href")).toBe(
-			"https://docs.mux.com/billing",
+			"https://docs.stellvexprotocol.com/billing",
 		);
 		expect(billingLink.getAttribute("target")).toBe("_blank");
 		expect(billingLink.getAttribute("rel")).toBe("noreferrer");

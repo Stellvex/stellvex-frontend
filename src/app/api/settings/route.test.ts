@@ -1,5 +1,5 @@
 /**
- * Tests for #709: /api/settings must proxy to mux-backend and must not
+ * Tests for #709: /api/settings must proxy to stellvex-backend and must not
  * serve mock data in production.
  */
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -10,11 +10,8 @@ vi.mock("@/lib/api/config", () => ({
 	isMockFallbackAllowed: vi.fn(() => true),
 }));
 
-import {
-	getBackendApiBaseUrl,
-	isMockFallbackAllowed,
-} from "@/lib/api/config";
 import { GET, PATCH } from "@/app/api/settings/route";
+import { getBackendApiBaseUrl, isMockFallbackAllowed } from "@/lib/api/config";
 
 function makeGetRequest(opts?: { auth?: string }) {
 	const headers: Record<string, string> = {};

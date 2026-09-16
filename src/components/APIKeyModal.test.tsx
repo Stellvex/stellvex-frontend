@@ -28,8 +28,8 @@ describe("APIKeyModal", () => {
 		const onCreateKey = vi.fn().mockResolvedValue({
 			id: "new-key",
 			name: "Production Key",
-			key: "mux_sk_a••••1234",
-			secret: "mux_sk_actual-secret-1234",
+			key: "stellvex_sk_a••••1234",
+			secret: "stellvex_sk_actual-secret-1234",
 			status: "Active",
 			createdAt: "2026-07-26T00:00:00.000Z",
 		});
@@ -48,14 +48,14 @@ describe("APIKeyModal", () => {
 
 		await waitFor(() =>
 			expect(screen.getByTestId("generated-key")).toHaveTextContent(
-				"mux_sk_actual-secret-1234",
+				"stellvex_sk_actual-secret-1234",
 			),
 		);
 		expect(onCreateKey).toHaveBeenCalledWith("Production Key");
 		expect(onKeyCreated).toHaveBeenCalledWith(
 			expect.objectContaining({
 				name: "Production Key",
-				key: "mux_sk_a••••1234",
+				key: "stellvex_sk_a••••1234",
 			}),
 		);
 	});

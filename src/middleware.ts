@@ -16,10 +16,10 @@ import {
  * Auth model (#621): provider-agnostic, server-verified sessions.
  *
  *  - With a backend configured (`NEXT_PUBLIC_API_URL` / aliases): a protected
- *    route requires the HttpOnly `mux_auth_token` cookie (set by
+ *    route requires the HttpOnly `stellvex_auth_token` cookie (set by
  *    `/api/auth/login` from the backend's login response) AND a live
  *    `GET {backend}/auth/session` check confirming it is still valid. The
- *    client-set `mux_auth_session` marker cookie is NOT trusted on its own.
+ *    client-set `stellvex_auth_session` marker cookie is NOT trusted on its own.
  *  - Without a backend (local dev / CI against in-repo mocks): the marker
  *    cookie is accepted so `pnpm dev` works without a live auth server.
  *
@@ -33,20 +33,6 @@ import {
  * `PROTECTED_PREFIXES` in `src/lib/auth/routeAccess.ts` and `config.matcher`
  * below.
  */
-const PROTECTED_PREFIXES = ["/dashboard", "/demo/dashboard", "/recovery"];
-
-/** Path unauthenticated users are redirected to. */
-const LOGIN_PATH = "/login";
-
-/** Cookie name — must match `SESSION_COOKIE_NAME` in AuthContext. */
-const SESSION_COOKIE_NAME = "mux_auth_session";
-
-function redirectToLogin(request: NextRequest) {
-	const loginUrl = request.nextUrl.clone();
-	loginUrl.pathname = LOGIN_PATH;
-	loginUrl.searchParams.set("callbackUrl", request.nextUrl.pathname);
-	return NextResponse.redirect(loginUrl);
-}
 
 export async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;

@@ -5,12 +5,12 @@ import { useDarkMode } from "./useDarkMode";
 describe("useDarkMode", () => {
 	beforeEach(() => {
 		document.documentElement.classList.remove("dark");
-		localStorage.removeItem("mux_dark_mode");
+		localStorage.removeItem("stellvex_dark_mode");
 	});
 
 	afterEach(() => {
 		document.documentElement.classList.remove("dark");
-		localStorage.removeItem("mux_dark_mode");
+		localStorage.removeItem("stellvex_dark_mode");
 	});
 
 	it("starts in light mode when no preference is stored", () => {
@@ -19,7 +19,7 @@ describe("useDarkMode", () => {
 	});
 
 	it("starts in dark mode when localStorage has 'true'", () => {
-		localStorage.setItem("mux_dark_mode", "true");
+		localStorage.setItem("stellvex_dark_mode", "true");
 		const { result } = renderHook(() => useDarkMode());
 		expect(result.current.isDark).toBe(true);
 		expect(document.documentElement.classList.contains("dark")).toBe(true);
@@ -33,7 +33,7 @@ describe("useDarkMode", () => {
 	});
 
 	it("toggle() switches from dark to light", () => {
-		localStorage.setItem("mux_dark_mode", "true");
+		localStorage.setItem("stellvex_dark_mode", "true");
 		const { result } = renderHook(() => useDarkMode());
 		act(() => result.current.toggle());
 		expect(result.current.isDark).toBe(false);
@@ -43,13 +43,13 @@ describe("useDarkMode", () => {
 	it("toggle() persists dark preference to localStorage", () => {
 		const { result } = renderHook(() => useDarkMode());
 		act(() => result.current.toggle());
-		expect(localStorage.getItem("mux_dark_mode")).toBe("true");
+		expect(localStorage.getItem("stellvex_dark_mode")).toBe("true");
 	});
 
 	it("toggle() persists light preference to localStorage", () => {
-		localStorage.setItem("mux_dark_mode", "true");
+		localStorage.setItem("stellvex_dark_mode", "true");
 		const { result } = renderHook(() => useDarkMode());
 		act(() => result.current.toggle());
-		expect(localStorage.getItem("mux_dark_mode")).toBe("false");
+		expect(localStorage.getItem("stellvex_dark_mode")).toBe("false");
 	});
 });

@@ -3,7 +3,7 @@
  *
  * Kept separate from `src/mock-data/overview.ts` so components and the API
  * client type against the real (backend-shaped) contract, not the mock
- * fixture — a live `mux-backend` response must satisfy this interface on
+ * fixture — a live `stellvex-backend` response must satisfy this interface on
  * its own merits, independent of what the mock happens to return.
  */
 export interface OverviewData {

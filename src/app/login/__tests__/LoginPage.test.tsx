@@ -177,7 +177,7 @@ describe("LoginPage (issue #47 + #325–#328)", () => {
 			user: { name: "Jane Doe", email: "jane@example.com", role: "admin" },
 			expiresAt: Date.now() + 60_000,
 		};
-		sessionStorage.setItem("mux_auth_user", JSON.stringify(record));
+		sessionStorage.setItem("stellvex_auth_user", JSON.stringify(record));
 		renderLoginPage();
 		await waitFor(() => {
 			expect(mockReplace).toHaveBeenCalledWith("/dashboard");
@@ -548,7 +548,7 @@ describe("LoginPage (issue #47 + #325–#328)", () => {
 				user: { name: "Jane", email: "jane@example.com", role: "admin" },
 				expiresAt: Date.now() + 60_000,
 			};
-			sessionStorage.setItem("mux_auth_user", JSON.stringify(record));
+			sessionStorage.setItem("stellvex_auth_user", JSON.stringify(record));
 			renderLoginPage();
 			// After effects run, the user is authenticated and redirected — the
 			// skeleton was the intermediate state; verify no form is left behind

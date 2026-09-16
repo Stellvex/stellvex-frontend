@@ -19,15 +19,15 @@ export interface RecoveryDocsLinkProps
 	/**
 	 * URL the link points to.
 	 *
-	 * Defaults to the canonical Mux recovery documentation page.
+	 * Defaults to the canonical Stellvex recovery documentation page.
 	 *
-	 * @default "https://docs.mux.network/recovery"
+	 * @default "https://docs.stellvexprotocol.com/recovery"
 	 */
 	href?: string;
 }
 
 /**
- * Anchor button that links to the Mux recovery documentation.
+ * Anchor button that links to the Stellvex recovery documentation.
  *
  * Opens in a new tab with `rel="noopener noreferrer"` for security.
  * The accessible label (`aria-label`) always mentions "(opens in a new tab)"
@@ -39,14 +39,14 @@ export interface RecoveryDocsLinkProps
  *
  * @example
  * // Custom label and destination
- * <RecoveryDocsLink href="https://docs.mux.network/guides/recovery">
+ * <RecoveryDocsLink href="https://docs.stellvexprotocol.com/guides/recovery">
  *   Full Recovery Guide
  * </RecoveryDocsLink>
  */
 
 export function RecoveryDocsLink({
 	className,
-	href = "https://docs.mux.network/recovery",
+	href = "https://docs.stellvexprotocol.com/recovery",
 	children = "Read Docs",
 	...props
 }: RecoveryDocsLinkProps) {

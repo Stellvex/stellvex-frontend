@@ -9,7 +9,7 @@ export default function Home() {
 					Dashboard
 				</h1>
 				<p className="text-zinc-500 dark:text-zinc-400">
-					Welcome back! Here's what's happening with your Mux Protocol
+					Welcome back! Here's what's happening with your Stellvex Protocol
 					integration.
 				</p>
 			</div>

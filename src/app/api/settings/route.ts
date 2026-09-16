@@ -7,7 +7,7 @@ import {
 
 /**
  * Shape of the settings payload exchanged with the backend and the client.
- * Keep in sync with mux-backend `PATCH /developers/me/settings`.
+ * Keep in sync with stellvex-backend `PATCH /developers/me/settings`.
  */
 export interface SettingsPayload {
 	displayName: string;
@@ -20,7 +20,7 @@ function backendUnavailableResponse() {
 		{
 			error: "backend_unavailable",
 			message:
-				"No settings backend is configured for this production deployment. Set MUX_BACKEND_URL.",
+				"No settings backend is configured for this production deployment. Set STELLVEX_BACKEND_URL.",
 		},
 		{ status: 503 },
 	);
@@ -39,7 +39,7 @@ function forwardHeaders(request: Request): Record<string, string> {
 /**
  * GET /api/settings
  *
- * Proxies to `{MUX_BACKEND_URL}/developers/me/settings` when configured.
+ * Proxies to `{STELLVEX_BACKEND_URL}/developers/me/settings` when configured.
  * In non-production with no backend, returns a 200 with empty/default
  * settings so the UI renders without error. Production with no backend
  * returns 503.
@@ -54,13 +54,10 @@ export async function GET(request: Request) {
 
 	if (backendUrl) {
 		try {
-			const upstream = await fetch(
-				`${backendUrl}/developers/me/settings`,
-				{
-					headers: forwardHeaders(request),
-					cache: "no-store",
-				},
-			);
+			const upstream = await fetch(`${backendUrl}/developers/me/settings`, {
+				headers: forwardHeaders(request),
+				cache: "no-store",
+			});
 			const data = await upstream.json().catch(() => ({}));
 			return NextResponse.json(data, { status: upstream.status });
 		} catch {
@@ -78,7 +75,9 @@ export async function GET(request: Request) {
 	// Non-production mock fallback — return empty settings (the UI will merge
 	// these with the user object from the auth context).
 	return NextResponse.json(
-		{ settings: { displayName: "", emailUpdates: true, compactWallets: false } },
+		{
+			settings: { displayName: "", emailUpdates: true, compactWallets: false },
+		},
 		{ status: 200 },
 	);
 }
@@ -86,7 +85,7 @@ export async function GET(request: Request) {
 /**
  * PATCH /api/settings
  *
- * Proxies to `{MUX_BACKEND_URL}/developers/me/settings` when configured.
+ * Proxies to `{STELLVEX_BACKEND_URL}/developers/me/settings` when configured.
  * In non-production with no backend, echoes the payload back as a mock save.
  * Production with no backend returns 503.
  */
@@ -132,17 +131,14 @@ export async function PATCH(request: Request) {
 
 	if (backendUrl) {
 		try {
-			const upstream = await fetch(
-				`${backendUrl}/developers/me/settings`,
-				{
-					method: "PATCH",
-					headers: forwardHeaders(request),
-					body: JSON.stringify({
-						...payload,
-						displayName: payload.displayName.trim(),
-					}),
-				},
-			);
+			const upstream = await fetch(`${backendUrl}/developers/me/settings`, {
+				method: "PATCH",
+				headers: forwardHeaders(request),
+				body: JSON.stringify({
+					...payload,
+					displayName: payload.displayName.trim(),
+				}),
+			});
 			const data = await upstream.json().catch(() => ({}));
 			return NextResponse.json(data, { status: upstream.status });
 		} catch {

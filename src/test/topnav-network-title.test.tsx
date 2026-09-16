@@ -45,7 +45,7 @@ describe("TopNav network label in page title", () => {
 
 	it("sets document.title with Mainnet by default", () => {
 		renderTopNav();
-		expect(document.title).toBe("Wallets · Mainnet — Mux");
+		expect(document.title).toBe("Wallets · Mainnet — Stellvex");
 	});
 
 	it("shows Testnet badge in h1 after switching", () => {
@@ -63,7 +63,7 @@ describe("TopNav network label in page title", () => {
 				screen.getByRole("button", { name: /switch to testnet/i }),
 			);
 		});
-		expect(document.title).toBe("Wallets · Testnet — Mux");
+		expect(document.title).toBe("Wallets · Testnet — Stellvex");
 	});
 
 	it("updates document.title back to Mainnet when switching back", () => {
@@ -78,6 +78,6 @@ describe("TopNav network label in page title", () => {
 				screen.getByRole("button", { name: /switch to mainnet/i }),
 			);
 		});
-		expect(document.title).toBe("Wallets · Mainnet — Mux");
+		expect(document.title).toBe("Wallets · Mainnet — Stellvex");
 	});
 });

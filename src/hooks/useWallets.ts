@@ -25,7 +25,7 @@ function filterWalletsByNetwork(
  * Reads the stored access token via the shared session store
  * (`src/lib/session.js`), which is backed by `sessionStorage`.
  *
- * Previously this read `localStorage.getItem("mux-auth-session")` directly —
+ * Previously this read `localStorage.getItem("stellvex-auth-session")` directly —
  * a second, ad-hoc copy of the session key that never matched where
  * `saveSession()` (used by `src/lib/api.js` and covered by
  * `src/lib/__tests__/session.test.ts`) actually writes the session, so the

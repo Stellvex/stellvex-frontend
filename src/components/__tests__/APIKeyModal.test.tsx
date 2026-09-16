@@ -26,7 +26,7 @@ describe("APIKeyModal — one-time key reveal", () => {
 		);
 		expect(screen.getByText(/will not be shown again/i)).toBeInTheDocument();
 		expect(screen.getByTestId("generated-key").textContent).toMatch(
-			/^mux_live_/,
+			/^stellvex_live_/,
 		);
 	});
 

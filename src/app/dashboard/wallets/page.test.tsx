@@ -57,7 +57,7 @@ describe("WalletsPage (/dashboard/wallets)", () => {
 
 	beforeEach(() => {
 		clearWalletsCacheForTests();
-		localStorage.removeItem("mux_network");
+		localStorage.removeItem("stellvex_network");
 		consoleSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
 	});
 
@@ -261,7 +261,7 @@ describe("WalletsPage (/dashboard/wallets)", () => {
 		});
 
 		it("shows testnet wallets (not a stale empty state) when the global network is testnet", async () => {
-			localStorage.setItem("mux_network", "testnet");
+			localStorage.setItem("stellvex_network", "testnet");
 			mockFetchOk([mockTestnetWallet]);
 			renderWalletsPage();
 

@@ -4,25 +4,25 @@
 
 | Route | Backend configured (`NEXT_PUBLIC_API_URL`) | No backend, non-prod | No backend, production |
 |---|---|---|---|
-| `POST /api/auth/login` | Proxies to `{backend}/auth/login`; on success sets the `mux_auth_token` cookie (`HttpOnly; SameSite=Lax; Secure` in prod) from the response token (#627). | Returns a mock `{ user, session }` (any well-formed credentials). | `503 backend_unavailable` — no mock sign-in (#625). |
-| `POST /api/auth/refresh` | Proxies to `{backend}/auth/refresh`, forwarding `Authorization` / `Cookie`; rotates the `mux_auth_token` cookie from the response (#626). | Mints the mock access token for `mock-refresh-token`; `401 invalid_refresh` otherwise. | `503 backend_unavailable`. |
-| `POST /api/auth/logout` | Best-effort `{backend}/auth/logout`; always clears `mux_auth_token`. | Clears `mux_auth_token`. | Clears `mux_auth_token`. |
+| `POST /api/auth/login` | Proxies to `{backend}/auth/login`; on success sets the `stellvex_auth_token` cookie (`HttpOnly; SameSite=Lax; Secure` in prod) from the response token (#627). | Returns a mock `{ user, session }` (any well-formed credentials). | `503 backend_unavailable` — no mock sign-in (#625). |
+| `POST /api/auth/refresh` | Proxies to `{backend}/auth/refresh`, forwarding `Authorization` / `Cookie`; rotates the `stellvex_auth_token` cookie from the response (#626). | Mints the mock access token for `mock-refresh-token`; `401 invalid_refresh` otherwise. | `503 backend_unavailable`. |
+| `POST /api/auth/logout` | Best-effort `{backend}/auth/logout`; always clears `stellvex_auth_token`. | Clears `stellvex_auth_token`. | Clears `stellvex_auth_token`. |
 
 Client side: `signIn(user, ttlMs?, tokens?)` in `src/context/AuthContext.tsx`
 persists any `tokens` block to tab-scoped `sessionStorage` via
-`src/lib/session.js` (`createSession` → `saveSession`, key `mux-auth-session`);
+`src/lib/session.js` (`createSession` → `saveSession`, key `stellvex-auth-session`);
 `src/lib/api.js` (`apiFetch`) then sends `Authorization: Bearer <accessToken>`
 and calls `/api/auth/refresh` once on a `401`. `signOut()` clears it. No token
 is ever written to `localStorage` or a `NEXT_PUBLIC_*` var (#628).
 
 `src/utils/fetchWithAuth.ts` — the wrapper used by `useWallets`, `useWallet`
 and the wallet Send flow — follows the same `401` contract as `apiFetch`
-(#630): it reads the refresh token from the **same** `mux-auth-session` store
+(#630): it reads the refresh token from the **same** `stellvex-auth-session` store
 (`loadSession()`, not an ad-hoc `localStorage` key — #629), `POST`s to
 `/api/auth/refresh`, persists any rotated `accessToken`, and retries the
 original request once with the new bearer token. Only if the refresh call
 fails — or the retried request is still a `401` — does it clear the session
-(`sessionStorage` user record + bearer session + `mux_auth_session` cookie)
+(`sessionStorage` user record + bearer session + `stellvex_auth_session` cookie)
 and `window.location.replace` to `/login?callbackUrl=…`.
 
 ### Stale-session guard (#624)
@@ -39,7 +39,7 @@ tree, and the `/demo` tree — which has no session — is the explicit opt-out.
 ## Spending limits
 
 The production dashboard calls `/api/spending-limits`, which proxies `GET` and
-`PUT` requests to mux-backend at `MUX_BACKEND_URL` (resolved by
+`PUT` requests to stellvex-backend at `STELLVEX_BACKEND_URL` (or the deprecated `MUX_BACKEND_URL` alias, resolved by
 `getBackendApiBaseUrl()` in `src/lib/api/config.ts`). It forwards the server API
 key and any caller `Authorization` header, and returns `503` when no backend is
 configured. It does not persist values in the frontend process, and
@@ -78,7 +78,7 @@ Files:
 `ApiKeysTable`, `useRevokeApiKey`, and `APIKeyModal` type against. The
 `src/mock-data/*` modules import and re-export these same types purely for
 backward compatibility — they are not the source of truth, so a real
-`mux-backend` response only needs to satisfy the `src/types/*` contract,
+`stellvex-backend` response only needs to satisfy the `src/types/*` contract,
 not whatever shape the mock fixture happens to use.
 
 ### `/api/api-keys` revoke and the mock store (#707)
@@ -233,7 +233,7 @@ Data hooks and their API routes follow one rule, centralised in
 
 - Proxies to `GET {backend}/transactions?<query>` when a backend is set,
   forwarding the caller's `Authorization` header (and the server `x-api-key`
-  when `MUX_API_KEY` is set). Upstream error statuses are passed through;
+  when `STELLVEX_API_KEY` or the deprecated `MUX_API_KEY` alias is set). Upstream error statuses are passed through;
   an unreachable backend returns `502`.
 - With no backend (non-production), filters `src/mock-data/transactions.ts`
   locally: `?address=` matches either the sender or the recipient, and

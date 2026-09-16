@@ -33,7 +33,7 @@ function seedSession() {
 		user: { name: "Jane Doe", email: "jane@example.com", role: "admin" },
 		expiresAt: Date.now() + 60_000,
 	};
-	sessionStorage.setItem("mux_auth_user", JSON.stringify(record));
+	sessionStorage.setItem("stellvex_auth_user", JSON.stringify(record));
 }
 
 function renderSidebar() {
@@ -79,7 +79,7 @@ describe("Logout action — Sidebar (issue #45)", () => {
 		const btn = await screen.findByTestId("sidebar-logout-button");
 		fireEvent.click(btn);
 		await waitFor(() => {
-			expect(sessionStorage.getItem("mux_auth_user")).toBeNull();
+			expect(sessionStorage.getItem("stellvex_auth_user")).toBeNull();
 		});
 	});
 
@@ -130,7 +130,7 @@ describe("Logout action — TopNav (issue #45)", () => {
 		fireEvent.click(logoutBtn);
 
 		await waitFor(() => {
-			expect(sessionStorage.getItem("mux_auth_user")).toBeNull();
+			expect(sessionStorage.getItem("stellvex_auth_user")).toBeNull();
 		});
 	});
 

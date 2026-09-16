@@ -3,7 +3,7 @@ import { DashboardLayout } from "@/components/layouts/DashboardLayout";
 
 export const metadata: Metadata = {
 	title: "Dashboard",
-	description: "Mux Protocol developer dashboard",
+	description: "Stellvex Protocol developer dashboard",
 };
 
 export default function DashboardRootLayout({

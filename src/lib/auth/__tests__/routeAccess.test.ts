@@ -3,7 +3,7 @@
  *
  * These lock in the fix for the "cookie-only auth" gap: when a backend is
  * configured, a protected route must require a real, backend-verified session
- * token — the client-settable `mux_auth_session` marker cookie alone must not
+ * token — the client-settable `stellvex_auth_session` marker cookie alone must not
  * be enough. They fail if that regression returns.
  */
 
